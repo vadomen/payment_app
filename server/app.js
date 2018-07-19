@@ -1,3 +1,5 @@
+"use strict"
+
 const express = require('express');
 const Router = require('./components/router');
 const config = require('./config');
@@ -20,12 +22,12 @@ class App {
     }
 
     initRouter(){
-        app.use('/', Router.router);
+        app.use('/', Router._router);
     }
 
     initServer() {
         app.listen(config.port, () => {
-            console.log('Server started on port ' + port)
+            console.log('Server started on port ' + config.port)
         });
     }
 }
