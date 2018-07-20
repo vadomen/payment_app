@@ -11,16 +11,20 @@ class UserService {
     }
 
     signUpUser({password, username, email}) {
-        // this.verifyUniqueness(username, email).then(result => {
-        //     console.log(result)
-        // })
-        const password_digest = bcrypt.hashSync(password);
-        const newUser = new User({
-            username,
-            password: password_digest,
-            email
+        return this.verifyUniqueness(username, email).then(resultsArr => {
+            [isUsernamePresent, isEmailPresent] = resultsArr;
+            if(isUsernamePresent || isEmailPresen) {
+                throw new Error('A user with such email or username already exists!');
+            } else {
+                const password_digest = bcrypt.hashSync(password);
+                const newUser = new User({
+                    username,
+                    password: password_digest,
+                    email
+                });
+                return newUser.save();
+            }
         });
-        return newUser.save();
     }
 
     signOutUser({_id}) {

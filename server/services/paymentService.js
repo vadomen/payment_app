@@ -1,11 +1,18 @@
-const stripe = requrie('stripe');
+const config = require('../config');
+const stripe = require('stripe')(config.stripe_secret_key);
 
-
-
-class UserService {
+class PaymentService {
     constructor() {
-        mongoose.connect(config.database);
+    }
+
+   createPaymentCustomer() {
+        stripe.customers.create({
+            source: 'tok_visa',
+            email: 'paying.user@example.com',
+        }).then(customer => {
+            console.log(customer);
+        });
     }
 }
 
-module.exports = new UserService();
+module.exports = new PaymentService();

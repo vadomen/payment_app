@@ -1,25 +1,25 @@
 const userService = require('../services/userService');
 
-const errorHandler = ({message}) => {
+const errorHandler = (res, {message}) => {
     res.status(403).json({error: message});
 }
 
 const signUpUser = (req, res) => {
     userService.signUpUser(req.body).then(() => {
         res.json({payload: 'A new user has been successfully created!'});
-    }).catch(errorHandler);
+    }).catch(err => errorHandler(res, err));
 }
 
 const signInUser = (req, res) => {
     userService.signInUser(req.body).then(respond => {
         res.json({payload: respond});
-    }).catch(errorHandler);
+    }).catch(err => errorHandler(res, err));
 }
 
 const signOutUser = (req, res) => {
     userService.signOutUser(req._currentUser).then(() => {
         res.json({payload: 'The user has been successfully removed!'});
-    }).catch(errorHandler);
+    }).catch(err => errorHandler(res, err));
 }
 
 module.exports = {
