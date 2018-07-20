@@ -11,6 +11,9 @@ class UserService {
     }
 
     signUpUser({password, username, email}) {
+        // this.verifyUniqueness(username, email).then(result => {
+        //     console.log(result)
+        // })
         const password_digest = bcrypt.hashSync(password);
         const newUser = new User({
             username,
@@ -42,6 +45,12 @@ class UserService {
 
     getUserById(id) {
         return User.findOne({'_id': id }, 'username _id email');
+    }
+
+    verifyUniqueness(username, email) {
+        let usernameVerification = User.findOne({username});
+        let emailVerification = User.findOne({email});
+        return Promise.all([usernameVerification, emailVerification]);
     }
 }
 
