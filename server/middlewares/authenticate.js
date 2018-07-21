@@ -2,23 +2,25 @@ const config = require('../config');
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
     const token = req.headers['authorization'] ? req.headers['authorization'] : null;
     if(token) {
-        jwt.verify(token, config.secret, (err, decoded) => {
-            if(err) {
-                res.status(401).json({error: 'Failed to authenticate'});
+        let decoded;
+        let user;
+        try {
+            decoded = await jwt.verify(token, config.secret);
+            user = await userService.getUserById(decoded.id);
+            if(user) {
+                req._currentUser = user;
+                return next();
             } else {
-                userService.getUserById(decoded.id).then(user => {
-                   req._currentUser = user;
-                   next();
-                }).catch(err => {
-                    res.status(404).json({error: 'Such a user does not exist'});
-                });
+                res.status(404).json({message: `Such a user does not exist!`});
             }
-        });
+        } catch({message}) {
+            res.status(401).json({message: `Failed to authenticate.${message}`});
+        }
     } else {
-        res.status(401).json({error: 'No token provided'});
+        res.status(401).json({message: 'No token provided'});
     }
 }
 

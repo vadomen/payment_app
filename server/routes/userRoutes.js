@@ -1,7 +1,7 @@
 const userService = require('../services/userService');
 
 const handleError = (res, {message}) => {
-    res.status(402).json({message});
+    res.status(404).json({message});
 }
 
 const signUpUser = (req, res) => {

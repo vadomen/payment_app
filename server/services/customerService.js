@@ -5,7 +5,7 @@ class CustomerService {
     constructor() {
     }
 
-   createCustomer(email) {
+   async createCustomer(email) {
         return stripe.customers.create({email});
     }
 
