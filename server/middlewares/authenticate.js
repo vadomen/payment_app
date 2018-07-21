@@ -2,7 +2,7 @@ const config = require('../config');
 const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
-const authenticate = async (req, res, next) => {
+const authenticate = (req, res, next) => {
     const token = req.headers['authorization'] ? req.headers['authorization'] : null;
     if(token) {
         jwt.verify(token, config.secret, (err, decoded) => {
