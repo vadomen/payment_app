@@ -22,12 +22,12 @@ class App {
     }
 
     initRouter(){
-        app.use('/', Router._router);
+        app.use('/', Router.routerInstance);
     }
 
     initServer() {
         app.listen(config.port, () => {
-            console.log('Server started on port ' + config.port)
+            console.log('The server has started on port ' + config.port)
         });
     }
 }

@@ -4,7 +4,7 @@ const middlewaresModule = require('../middlewares/middlewaresModule');
 
 class Router {
     constructor() {
-        this._router = express.Router();
+        this.routerInstance = express.Router();
         this.initRoutes();   
     }
 
@@ -12,10 +12,10 @@ class Router {
         Object.values(routesModule).forEach(route => {
             if(route.middlewares.length > 0) {
                 route.middlewares.forEach(middleware => {
-                    this._router[route.method](route.path, middlewaresModule[middleware]);
+                    this.routerInstance[route.method](route.path, middlewaresModule[middleware]);
                 });
             }
-            this._router[route.method](route.path, route.handler);
+            this.routerInstance[route.method](route.path, route.handler);
         });
     }
 }

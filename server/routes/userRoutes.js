@@ -1,25 +1,32 @@
 const userService = require('../services/userService');
 
-const errorHandler = (res, {message}) => {
-    res.status(403).json({error: message});
+const handleError = (res, {message}) => {
+    res.status(402).json({message});
 }
 
 const signUpUser = (req, res) => {
-    userService.signUpUser(req.body).then(() => {
-        res.json({payload: 'A new user has been successfully created!'});
-    }).catch(err => errorHandler(res, err));
+    userService.signUpUser(req.body)
+        .then((user) => {
+            res.json({message: 'A new user has been successfully created!', payload: user })})
+        .catch(err => handleError(res, err));
 }
 
 const signInUser = (req, res) => {
-    userService.signInUser(req.body).then(respond => {
-        res.json({payload: respond});
-    }).catch(err => errorHandler(res, err));
+    userService.signInUser(req.body)
+        .then(respond => {
+            res.json({message: '', payload: respond})})
+        .catch(err => handleError(res, err));
 }
 
 const signOutUser = (req, res) => {
-    userService.signOutUser(req._currentUser).then(() => {
-        res.json({payload: 'The user has been successfully removed!'});
-    }).catch(err => errorHandler(res, err));
+    userService.signOutUser(req._currentUser)
+        .then(() => {
+            res.json({message: 'The user has been successfully removed!', payload: {}})})
+        .catch(err => handleError(res, err));
+}
+
+const getUser = ({_currentUser: user}, res) => {
+    res.json({message: `A user ${user._id} has been retreived`, payload: user})
 }
 
 module.exports = {
@@ -40,5 +47,11 @@ module.exports = {
         handler : signInUser,
         method: 'post',
         middlewares: []
+    },
+    'get' : {
+        path: '/user/get',
+        handler : getUser,
+        method: 'get',
+        middlewares: ['authenticate']
     }
 }

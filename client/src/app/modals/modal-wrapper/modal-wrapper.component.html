@@ -1,0 +1,12 @@
+<div #modal id="modal-wrapper" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h5 class="center">Create a condition</h5> 
+		  <card-editor *ngIf="activeModal === 'ConditionCreater'"></card-editor>
+		  <confirmation *ngIf="activeModal === 'TextEditor'"></confirmation>
+	</div>
+	<div class="divider"></div>
+	<div class="modal-footer">
+		<button class="btn red lighten-2 btn-flat" (click)="closeModal()">Cancel</button>
+		<button class="btn green lighten-2 btn-flat" (click)="closeModal()">Create</button>
+	</div>
+</div> 

@@ -1,18 +1,18 @@
-const paymentService = require('../services/paymentService');
+const customerService = require('../services/customerService');
 
 const errorHandler = ({message}) => {
     res.status(403).json({error: message});
 }
 
-const createPaymentCustomer = (req, res) => {
-    paymentService.createPaymentCustomer(req.body);
+const createCustomer = (req, res) => {
+    customerService.createCustomer(req.body);
 }
 
 
 module.exports = {
     'create' : {
-        path: '/payment/create',
-        handler : createPaymentCustomer,
+        path: '/customer/create',
+        handler : createCustomer,
         method: 'post',
         middlewares: []
     }
