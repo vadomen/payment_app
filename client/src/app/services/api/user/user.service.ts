@@ -20,6 +20,10 @@ export class UserService {
         return this.http.post(`${this.url}${USER.SIGN_IN}`, JSON.stringify(credentials), { headers: this.headers });
     }
 
+    public signUpUser(credentials): Observable<any> {
+        return this.http.post(`${this.url}${USER.SIGN_UP}`, JSON.stringify(credentials), { headers: this.headers });
+    }
+
     public getUser(): Observable<any> {
         return this.http.get(`${this.url}${USER.GET_USER}`, { headers: this.headers });
     }

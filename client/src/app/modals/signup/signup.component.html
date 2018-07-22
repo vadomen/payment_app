@@ -1,3 +1,14 @@
-<p>
-  signup works!
-</p>
+<form #signupForm="ngForm" class="row" (submit)="$event.preventDefault()">
+    <div class="input-field col s8 offset-s2">
+        <input required ngModel autocomplete="off" [email]="true" id="email" type="email" name="email">
+        <label for="email">email</label>
+    </div>
+    <div class="input-field col s8 offset-s2">
+        <input required ngModel autocomplete="off" id="username" type="text" name="username">
+        <label for="username">username</label>
+    </div>
+    <div class="input-field col s8 offset-s2">
+        <input required ngModel autocomplete="off" id="password" type="password" name="password">
+        <label for="password">password</label>
+    </div>
+</form>

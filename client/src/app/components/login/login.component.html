@@ -1,5 +1,5 @@
 <h5 class="center">Sign in</h5>
-<form #loginForm="ngForm" class="row" (submit)="$event.preventDefault();loginForm.valid ? signIn(loginForm.value) : ''">
+<form #loginForm="ngForm" class="row" (submit)="$event.preventDefault(); loginForm.valid ? signIn(loginForm.value) : ''">
     <div class="input-field col s8 offset-s2">
         <input required ngModel autocomplete="off" id="login" type="text" name="login">
         <label for="login">username or email</label>
@@ -13,5 +13,5 @@
     </div>
 </form>
 <div class="row center-align">
-    <p>Do not have an account?</p><a>Create account</a>
+    <p>Do not have an account?</p><a (click)="openModal('SignupComponent')">Create account</a>
 </div>

@@ -30,6 +30,7 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
     ngOnInit() {
 		this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
             this.handleTelegram(telegram);
+            this.cdr.detectChanges();
 		}, err => console.log(err));
     }
 
@@ -107,7 +108,9 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
 
     ngOnDestroy() {
         this.telegramSubscription.unsubscribe();
-		this.telegramSubscription = null;
+        this.telegramSubscription = null;
+        this.card.removeEventListener('change', this.cardHandler);
+        this.card.destroy();
     }
 
 }
