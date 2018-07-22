@@ -2,7 +2,7 @@
 <button class="btn" (click)="openModal('CardEditorComponent')">Add a new card</button>
 <ul *ngIf="cards.data?.length !== 0" class="collection">
     <li *ngFor="let card of cards?.data; trackBy: trackByFn" class="collection-item row">
-        <span class="col s6">{{card.brand}} {{card.country}} ****{{card.last4}}</span>
+        <span class="col s6">{{card.brand}} {{card.country}} ****{{card.last4}} <span *ngIf="card.id === cards.default_source">ACTIVE</span></span>
         <div class="col s6 right-align">
             <button class="btn btn-small">Edit</button>
             <button class="btn btn-small red" (click)="deleteCard(card.id)">Delete</button>

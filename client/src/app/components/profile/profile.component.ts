@@ -44,6 +44,7 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
         this.isLoading = true;
         this.unsubsribe();
         this.profileSubscription = this.userService.getUser().subscribe(({payload : profile}) => {
+            console.log(profile);
             this.parseProfile(profile);
             this.isLoading = false;
             this.cdr.detectChanges();

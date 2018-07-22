@@ -12,7 +12,10 @@ export class SubscriptionsListComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        console.log(this.subscriptions);
+    }
+
+    trackByFn(index, item) {
+        return index;
     }
 
 }
