@@ -1,13 +1,12 @@
 <div #modal id="modal-wrapper" class="modal">
     <div class="modal-content">
         <h5 class="center">{{modalHeader}}</h5> 
-          <card-editor *ngIf="activeModal === 'CardEditor'"></card-editor>
-          <card-creator *ngIf="activeModal === 'CardCreator'"></card-creator>
-		  <confirmation *ngIf="activeModal === 'Confirmation'"></confirmation>
+          <card-editor *ngIf="activeModal === 'CardEditorComponent'"></card-editor>
+		  <confirmation *ngIf="activeModal === 'ConfirmationComponent'"></confirmation>
 	</div>
 	<div class="divider"></div>
 	<div class="modal-footer">
 		<button class="btn red lighten-2 btn-flat" (click)="closeModal()">{{cancelButton}}</button>
-		<button class="btn green lighten-2 btn-flat" (click)="closeModal()">{{successButton}}</button>
+		<button [disabled]="disableSuccessButton" class="btn green lighten-2 btn-flat" (click)="closeModal()">{{successButton}}</button>
 	</div>
 </div> 

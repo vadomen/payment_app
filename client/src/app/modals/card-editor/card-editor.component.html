@@ -1,3 +1,9 @@
-<p>
-  card-editor works!
-</p>
+<form #cardForm="ngForm" (ngSubmit)="onSubmit(cardForm.value)" class="checkout">
+    <div class="form-row">
+        <label for="card-element">
+            Credit or debit card
+        </label>
+        <div id="card-element" #cardContainer></div>
+        <div role="alert">{{errorMessage}}</div>
+    </div>
+</form>

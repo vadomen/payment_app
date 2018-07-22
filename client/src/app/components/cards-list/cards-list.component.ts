@@ -23,7 +23,8 @@ export class CardsListComponent implements OnInit {
                 payload: {
                     openModal: modalToOpen,
                     modalHeader: 'Add a new card',
-                    successButton: 'Create a card'
+                    successButton: 'Create a card',
+                    disableSuccessButton : true
                 }
             }
         };
