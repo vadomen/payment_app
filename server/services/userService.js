@@ -32,11 +32,6 @@ class UserService {
         }    
     }
 
-
-    async deleteUser({_id}) {
-        return User.deleteOne({_id});
-    }
-
     async signInUser({login, password}) {
         const Query = User.findOne({});
         const user = await Query.or([{ email: login }, { username: login }]).exec();

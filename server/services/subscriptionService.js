@@ -1,0 +1,33 @@
+const config = require('../config');
+const stripe = require('stripe')(config.stripe.secretKey);
+const planId = config.stripe.planId;
+
+class SubscriptionService {
+    constructor() {
+
+    }
+
+    async initSubscription({_currentUser: user}) {
+        const subscription = await stripe.subscriptions.create({
+            customer: user.customerId,
+            items: [
+              {
+                plan: planId,
+              },
+            ]
+          });
+        if(subscription) {
+            return subscription;
+        } else {
+            throw new Error('Unable to initiate a subscription.')
+        }
+    }
+
+    
+    async suspendSubscription(subscriptionId) {
+        const confirmation = await stripe.subscriptions.del(subscriptionId);
+    }
+
+}
+
+module.exports = new SubscriptionService();

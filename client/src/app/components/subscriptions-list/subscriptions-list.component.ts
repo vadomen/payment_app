@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { SubscriptionService } from '../../services/api/subscription/subscription.service';
+import { TelegramService } from '../../services/communication/telegram.service';
+import { Telegram } from '../../interfaces/telegram';
 
 @Component({
     selector: 'subscriptions-list',
@@ -9,13 +12,33 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 export class SubscriptionsListComponent implements OnInit {
 
     @Input('subscriptions') public subscriptions: any;
-    constructor() { }
+    
+    constructor(private subscriptionService: SubscriptionService,
+                private telegramService: TelegramService) { }
 
     ngOnInit() {
     }
 
-    trackByFn(index, item) {
+    public trackByFn(index, item) {
         return index;
+    }
+
+    public initSubscription() {
+        this.subscriptionService.initSibscription().subscribe(
+            res => this.initProfile(),
+            err => console.log(err));
+    }
+
+    private initProfile() {
+        let telegram: Telegram = { 
+            ProfileComponent: {
+                payload: {
+                    initProfile: []
+                }
+            }
+        };
+
+        this.telegramService.sendTelegram(telegram);
     }
 
 }

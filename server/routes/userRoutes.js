@@ -18,13 +18,6 @@ const signInUser = (req, res) => {
         .catch(err => handleError(res, err));
 }
 
-const deleteUser = (req, res) => {
-    userService.deleteUser(req._currentUser)
-        .then((user) => {
-            res.json({message: `The user ${user._id} has been successfully removed.`, payload: {user}})})
-        .catch(err => handleError(res, err));
-}
-
 const getUserProfile = ({_currentUser: userObj}, res) => {
     userService.getUserProfile(userObj).then(user => {
         res.json({message: `The user ${user._id} has been retreived.`, payload: user})
@@ -37,12 +30,6 @@ module.exports = {
         handler : signUpUser,
         method: 'post',
         middlewares: []
-    },
-    'delete' : {
-        path: '/user/delete',
-        handler : deleteUser,
-        method: 'post',
-        middlewares: ['authenticate']
     },
     'signin' : {
         path: '/user/signin',

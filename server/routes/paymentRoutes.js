@@ -9,11 +9,13 @@ const addCard = (req, res) => {
         res.json({message: `A new card ${card.id} has been added.`, payload: card});
     }).catch(err => handleError(res, err));
 }
+
 const updateCard = (req, res) => {
 }
+
 const deleteCard = (req, res) => {
     cardService.deleteCard({user: req._currentUser, cardId: req.body.cardId}).then(confirmation => {
-        res.json({message: `The card ${confirmation.id} has been deleted`, payload: confirmation});
+        res.json({message: `The card ${confirmation.id} has been deleted.`, payload: confirmation});
     }).catch(err => handleError(res, err));
 }
 

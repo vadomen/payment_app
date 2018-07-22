@@ -3,6 +3,8 @@
 <button class="btn red" (click)="suspendSubscription()">Suspend subscription</button>
 <ul *ngIf="subscriptions.data?.length !== 0" class="collection">
     <li *ngFor="let sub of subscriptions?.data; trackBy: trackByFn" class="collection-item row">
+        <div class="col s7 ">{{sub.plan.nickname}}</div> 
+        <div class="col s5 right-align blue-text">{{sub.plan.amount}} {{sub.plan.currency}}/{{sub.plan.interval}}</div>
     </li>
 </ul>
 <div *ngIf="subscriptions.data?.length === 0" class="empty-cnt">

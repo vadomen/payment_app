@@ -51,4 +51,5 @@ export class PaymentService {
     public deleteCard(cardId: any): Observable<any>{
         return this.http.post(`${this.url}${PAYMENT.DELETE_CARD}`, JSON.stringify({cardId}), { headers: this.headers });
     }
+
 }

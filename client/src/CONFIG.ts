@@ -4,12 +4,17 @@ export default {
             BASE_URL: 'http://localhost:3030/',
             USER : {
                 SIGN_IN: 'user/signin',
-                GET_USER: 'user/get'
+                GET_USER: 'user/get',
+                SIGN_UP: 'user/signup'
             },
             PAYMENT: {
                 ADD_CARD: 'user/payment/addcard',
                 UPDATE_CARD: 'user/payment/updatecard',
                 DELETE_CARD: 'user/payment/deletecard'
+            },
+            SUBSCRIPTION: {
+                INIT: 'user/subscription/init',
+                SUSPEND: 'user/subscription/suspend',
             }
         },
         STRIPE : {

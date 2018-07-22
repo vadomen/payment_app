@@ -2,7 +2,7 @@ const config = require('../config');
 const stripe = require('stripe')(config.stripe.secretKey);
 const customerService = require('./customerService');
 
-class CustomerService {
+class CardService {
     constructor() {
     }
 
@@ -34,4 +34,4 @@ class CustomerService {
     
 }
 
-module.exports = new CustomerService();
+module.exports = new CardService();

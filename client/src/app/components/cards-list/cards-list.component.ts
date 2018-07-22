@@ -16,7 +16,7 @@ export class CardsListComponent implements OnInit {
     public cardsList: any[] = [];
 
     constructor(private telegramService: TelegramService,
-                private paymnetService: PaymentService) { }
+                private paymentService: PaymentService) { }
 
     ngOnInit() {
 
@@ -38,7 +38,7 @@ export class CardsListComponent implements OnInit {
 
     public deleteCard(cardId) {
         this.setLoading(true);
-        this.paymnetService.deleteCard(cardId).subscribe(() => {
+        this.paymentService.deleteCard(cardId).subscribe(() => {
             this.initProfile();
         }, err => {
             this.setLoading(false);
@@ -46,7 +46,7 @@ export class CardsListComponent implements OnInit {
         });
     }
 
-	trackByFn(index, item) {
+	public trackByFn(index, item) {
         return index;
     }
     
