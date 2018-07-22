@@ -47,4 +47,8 @@ export class PaymentService {
             return this.http.post(`${this.url}${PAYMENT.ADD_CARD}`, JSON.stringify(token), { headers: this.headers });
         }
     }
+
+    public deleteCard(cardId: any): Observable<any>{
+        return this.http.post(`${this.url}${PAYMENT.DELETE_CARD}`, JSON.stringify({cardId}), { headers: this.headers });
+    }
 }

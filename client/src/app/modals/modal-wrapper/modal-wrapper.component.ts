@@ -23,6 +23,8 @@ export class ModalWrapperComponent extends TelegramHandler implements OnInit {
     public cancelButton: string = 'Cancel';
     public disableSuccessButton: boolean = false;
 
+    public isLoading: boolean = false;
+
 	constructor(private telegramService: TelegramService, private cdr: ChangeDetectorRef) { 
 		super();
 	}

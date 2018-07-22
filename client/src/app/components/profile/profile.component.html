@@ -1,17 +1,27 @@
-<div class="profile-info">
-    <h5>PROFILE INFO <button (click)="signOut()"class="right btn btn-flat red lighten-3">Sign out</button></h5>
-    <ul class="collection">
-        <li *ngFor="let prop of userInfo" class="collection-item">
-            <p><span class="badge">{{prop.key}}</span> {{prop.value}}</p>
-        </li>
-    </ul>
-</div>
-<div class="divider"></div>
+<div class="wrapper">
+    <div class="profile-info">
+        <h5>PROFILE INFO <button (click)="signOut()"class="right btn btn-flat blue darken-1">Sign out</button></h5>
+        <ul class="collection">
+            <li *ngFor="let prop of userInfo" class="collection-item">
+                <p><span class="badge">{{prop.key}}</span> {{prop.value}}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="divider"></div>
 
-<div class="cards-list">
-    <cards-list [cards]="userCards"></cards-list>
-</div>
-<div class="subscriptions-lists">
-    <subscriptions-list [subscriptions]="userSubscriptions"></subscriptions-list>
+    <div class="cards-list">
+        <cards-list [cards]="userCards"></cards-list>
+    </div>
+    <div class="subscriptions-lists">
+        <subscriptions-list [subscriptions]="userSubscriptions"></subscriptions-list>
+    </div>
+    <div *ngIf="isLoading" class="loader-container">
+        <div class="loader">
+            <span class="a"></span>
+            <span class="b spin">
+                <span class="c"></span>
+            </span>
+        </div>
+    </div>
 </div>
 

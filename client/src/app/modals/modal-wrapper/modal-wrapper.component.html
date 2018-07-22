@@ -8,5 +8,13 @@
 	<div class="modal-footer">
 		<button class="btn red lighten-2 btn-flat" (click)="closeModal()">{{cancelButton}}</button>
 		<button [disabled]="disableSuccessButton" class="btn green lighten-2 btn-flat" (click)="onSubmit()">{{successButton}}</button>
-	</div>
+    </div>
+    <div *ngIf="isLoading" class="loader-container">
+        <div class="loader">
+            <span class="a"></span>
+            <span class="b spin">
+                <span class="c"></span>
+            </span>
+        </div>
+    </div>
 </div> 

@@ -22,6 +22,8 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
     public userCards: any[] = [];
     public userSubscriptions: any[] = [];
 
+    public isLoading: boolean = false;
+
     constructor(private userService: UserService, 
                 private authService: AuthService,
                 private telegramService: TelegramService,
@@ -33,15 +35,17 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
     ngOnInit() {
         this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
             this.handleTelegram(telegram);
+            this.cdr.detectChanges();
 		}, err => console.log(err));
         this.initProfile();
     }
 
     private initProfile() {
+        this.isLoading = true;
         this.unsubsribe();
         this.profileSubscription = this.userService.getUser().subscribe(({payload : profile}) => {
-            console.log(profile);
             this.parseProfile(profile);
+            this.isLoading = false;
             this.cdr.detectChanges();
         }, err => {
             this.signOut();

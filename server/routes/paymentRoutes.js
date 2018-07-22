@@ -12,7 +12,9 @@ const addCard = (req, res) => {
 const updateCard = (req, res) => {
 }
 const deleteCard = (req, res) => {
-
+    cardService.deleteCard({user: req._currentUser, cardId: req.body.cardId}).then(confirmation => {
+        res.json({message: `The card ${confirmation.id} has been deleted`, payload: confirmation});
+    }).catch(err => handleError(res, err));
 }
 
 module.exports = {

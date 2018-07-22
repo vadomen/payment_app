@@ -19,8 +19,13 @@ class CustomerService {
         
     }
 
-    async deleteCard() {
-
+    async deleteCard({user, cardId}) {
+        const confirmation = await stripe.customers.deleteCard(user.customerId, cardId);
+        if(confirmation) {
+            return confirmation;
+        } else {
+            throw new Error('Unable delete a card. Plase try again later');
+        }
     }
 
     async updateCard() {

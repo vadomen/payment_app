@@ -59,24 +59,50 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
       }
 
     private onSubmit() {
+        this.setLoading(true);
         this.paymentService.addCard(this.card).then(obs=> {
             obs.subscribe(res => {
-                let telegram: Telegram = { 
-                    ModalWrapperComponent: { 
-                        payload: {
-                            closeModal: []
-                        }
-                    },
-                    ProfileComponent: {
-                        payload: {
-                            initProfile: []
-                        }
-                    }
-                };
-        
-                this.telegramService.sendTelegram(telegram);
-            }, err => console.log(err));
+                this.initProfile();
+                this.closeModal();
+            }, err => {
+                console.log(err);
+                this.closeModal();
+            });
         });
+    }
+
+    private setLoading(value: boolean) {
+        let telegram: Telegram = { 
+            ModalWrapperComponent: { 
+                payload: {
+                    isLoading: value,
+                }
+            }
+        };
+        this.telegramService.sendTelegram(telegram);
+    }
+
+    private initProfile() {
+        let telegram: Telegram = { 
+            ProfileComponent: {
+                payload: {
+                    initProfile: []
+                }
+            }
+        };
+        this.telegramService.sendTelegram(telegram);
+    }
+
+    private closeModal() {
+        let telegram: Telegram = { 
+            ModalWrapperComponent: { 
+                payload: {
+                    isLoading: false,
+                    closeModal: []
+                }
+            }
+        };
+        this.telegramService.sendTelegram(telegram);
     }
 
     ngOnDestroy() {
