@@ -4,8 +4,6 @@ import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
 
-declare let M: any;
-
 @Component({
   selector: 'modal-wrapper',
   templateUrl: './modal-wrapper.component.html',
