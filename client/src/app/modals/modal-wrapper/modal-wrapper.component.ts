@@ -31,7 +31,7 @@ export class ModalWrapperComponent extends TelegramHandler implements OnInit {
 		this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
             this.handleTelegram(telegram);
             this.cdr.detectChanges();
-		});
+		}, err => console.log(err));
 	}
 
 	ngAfterViewInit() {
@@ -47,7 +47,18 @@ export class ModalWrapperComponent extends TelegramHandler implements OnInit {
 	private closeModal() {
 		this.activeModal = null;
         this.modalInstance.close();
-	}
+    }
+    
+    public onSubmit() {
+        let telegram: Telegram = { 
+            [this.activeModal]: { 
+                payload: {
+                    onSubmit: []
+                }
+            }
+        };
+        this.telegramService.sendTelegram(telegram);
+    }
 
 	ngOnDestroy() {
 		this.telegramSubscription.unsubscribe();

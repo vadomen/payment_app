@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { PaymentService } from '../../services/payment/payment.service';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
+import { Subscription } from 'rxjs';
+import { TelegramHandler } from '../../interfaces/telegramHandler';
 
 @Component({
   selector: 'card-editor',
@@ -9,9 +11,10 @@ import { Telegram } from '../../interfaces/telegram';
   styleUrls: ['./card-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardEditorComponent implements OnInit, AfterViewInit {
+export class CardEditorComponent extends TelegramHandler implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
 
+    private telegramSubscription: Subscription;
     public elements: any;
     public card: any;
     private cardHandler = this.onChange.bind(this);
@@ -19,12 +22,15 @@ export class CardEditorComponent implements OnInit, AfterViewInit {
 
     constructor(private paymentService: PaymentService, 
                 private cdr: ChangeDetectorRef, 
-                private telegramSerice: TelegramService) { 
+                private telegramService: TelegramService) {
+        super();
         this.elements = this.paymentService.initStripeElements();
     }
 
     ngOnInit() {
-
+		this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
+            this.handleTelegram(telegram);
+		}, err => console.log(err));
     }
 
     ngAfterViewInit() {
@@ -49,7 +55,17 @@ export class CardEditorComponent implements OnInit, AfterViewInit {
             }
         };
         
-        this.telegramSerice.sendTelegram(telegram);
+        this.telegramService.sendTelegram(telegram);
       }
+
+    private onSubmit() {
+        console.log('hello');
+        // this.paymentService.createPaymentToken(this.card);
+    }
+
+    ngOnDestroy() {
+        this.telegramSubscription.unsubscribe();
+		this.telegramSubscription = null;
+    }
 
 }

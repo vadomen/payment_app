@@ -5,14 +5,14 @@ export abstract class TelegramHandler {
 
     constructor() { }
 
-    public handleTelegram({ [this.constructor.name] : component } : Telegram,  { payload } = component ) {
+    public handleTelegram({ [this.constructor.name] : component } : Telegram) {
         if(component) {
-            Object.keys(payload).forEach(prop => {
+            Object.keys(component.payload).forEach(prop => {
                 if(prop in this){
                     if(typeof this[prop] === 'function') {
-                        Array.isArray(payload[prop]) ? this[prop](...payload[prop]) : this[prop](payload[prop]);
+                        Array.isArray(component.payload[prop]) ? this[prop](...component.payload[prop]) : this[prop](component.payload[prop]);
                     } else {
-                        this[prop] = payload[prop];
+                        this[prop] = component.payload[prop];
                     }
                 }
             });

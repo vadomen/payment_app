@@ -16,4 +16,9 @@ export class PaymentService {
     public initStripeElements() {
         return this.stripe.elements();
     }
+
+    public async createPaymentToken(card: any) {
+        let token = await this.stripe.createToken(card);
+        console.log(token);
+    }
 }
