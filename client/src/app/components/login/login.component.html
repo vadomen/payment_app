@@ -1,15 +1,15 @@
 <h5 class="center">Sign in</h5>
-<form #loginForm="ngForm" class="row" (submit)="$event.preventDefault();signIn(loginForm.value)">
+<form #loginForm="ngForm" class="row" (submit)="$event.preventDefault();loginForm.valid ? signIn(loginForm.value) : ''">
     <div class="input-field col s8 offset-s2">
-        <input ngModel autocomplete="off" id="login" type="text" name="login">
+        <input required ngModel autocomplete="off" id="login" type="text" name="login">
         <label for="login">username or email</label>
     </div>
     <div class="input-field col s8 offset-s2">
-        <input ngModel id="password" type="password" name="password">
+        <input required ngModel id="password" type="password" name="password">
         <label for="username">password</label>
     </div>
     <div class="col s12 center">
-        <button [disabled]="loginForm.value.username?.length === 0 || loginForm.value.password?.length === 0" type="submit" class="btn" name="action">Login</button>
+        <button [disabled]="!loginForm.valid" type="submit" class="btn" name="action">Login</button>
     </div>
 </form>
 <div class="row center-align">
