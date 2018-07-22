@@ -4,16 +4,7 @@ const UserSchema = mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    customerId: String,
-    subscriptions: {
-        activeSubscriptionsList: Array
-    },
-    paymentMethods: {
-        cards: {
-            defaultCard: String,
-            cardsList: Array
-        }
-    }
+    customerId: String
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterContentInit, DoCheck, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, AfterContentInit, DoCheck, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { Telegram } from '../../interfaces/telegram';
 import { TelegramService } from '../../services/communication/telegram.service';
 
@@ -9,8 +9,11 @@ import { TelegramService } from '../../services/communication/telegram.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsListComponent implements OnInit {
-    @Input('cards') public cards: any;
-    
+    @Input('cards') private cards: any;
+
+    private defaultCard: string | null = null;
+    public cardsList: any[] = [];
+
     constructor(private telegramService: TelegramService) { }
 
     ngOnInit() {

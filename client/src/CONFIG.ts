@@ -5,6 +5,11 @@ export default {
             USER : {
                 SIGN_IN: 'user/signin',
                 GET_USER: 'user/get'
+            },
+            PAYMENT: {
+                ADD_CARD: 'user/payment/addcard',
+                UPDATE_CARD: 'user/payment/updatecard',
+                DELETE_CARD: 'user/payment/deletecard'
             }
         },
         STRIPE : {

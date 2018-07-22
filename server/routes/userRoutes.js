@@ -18,15 +18,17 @@ const signInUser = (req, res) => {
         .catch(err => handleError(res, err));
 }
 
-const signOutUser = (req, res) => {
-    userService.signOutUser(req._currentUser)
+const deleteUser = (req, res) => {
+    userService.deleteUser(req._currentUser)
         .then((user) => {
             res.json({message: `The user ${user._id} has been successfully removed.`, payload: {user}})})
         .catch(err => handleError(res, err));
 }
 
-const getUser = ({_currentUser: user}, res) => {
-    res.json({message: `The user ${user._id} has been retreived.`, payload: user})
+const getUserProfile = ({_currentUser: userObj}, res) => {
+    userService.getUserProfile(userObj).then(user => {
+        res.json({message: `The user ${user._id} has been retreived.`, payload: user})
+    }).catch(err => handleError(res, err));
 }
 
 module.exports = {
@@ -36,9 +38,9 @@ module.exports = {
         method: 'post',
         middlewares: []
     },
-    'signout' : {
-        path: '/user/signout',
-        handler : signOutUser,
+    'delete' : {
+        path: '/user/delete',
+        handler : deleteUser,
         method: 'post',
         middlewares: ['authenticate']
     },
@@ -50,7 +52,7 @@ module.exports = {
     },
     'get' : {
         path: '/user/get',
-        handler : getUser,
+        handler : getUserProfile,
         method: 'get',
         middlewares: ['authenticate']
     }

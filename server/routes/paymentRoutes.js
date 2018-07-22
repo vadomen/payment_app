@@ -1,10 +1,13 @@
-const customerService = require('../services/customerService');
+const cardService = require('../services/cardService');
 
-const errorHandler = ({message}) => {
-    res.status(403).json({error: message});
+const handleError = (res, {message}) => {
+    res.status(404).json({message});
 }
 
 const addCard = (req, res) => {
+    cardService.addCard(req).then(card => {
+        res.json({message: `A new card ${card.id} has been added.`, payload: card});
+    }).catch(err => handleError(res, err));
 }
 const updateCard = (req, res) => {
 }

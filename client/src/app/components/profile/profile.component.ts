@@ -1,7 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { UserService } from '../../services/api/user.service';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { UserService } from '../../services/api/user/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
+import { Subscription } from 'rxjs';
+import { TelegramService } from '../../services/communication/telegram.service';
+import { TelegramHandler } from '../../interfaces/telegramHandler';
+import { Telegram } from '../../interfaces/telegram';
 
 @Component({
     selector: 'profile',
@@ -9,47 +13,63 @@ import { AuthService } from '../../services/authentication/auth.service';
     styleUrls: ['./profile.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends TelegramHandler implements OnInit, OnDestroy {
+
+    private profileSubscription: Subscription;
+    private telegramSubscription: Subscription;
 
     public userInfo: any[] = [];
-    public userCardsObj: any;
-    public userSubscriptionsObj: any;
+    public userCards: any[] = [];
+    public userSubscriptions: any[] = [];
 
     constructor(private userService: UserService, 
                 private authService: AuthService,
+                private telegramService: TelegramService,
                 private router: Router,
-                private cdr: ChangeDetectorRef) { }
+                private cdr: ChangeDetectorRef) { 
+                    super();
+                }
 
     ngOnInit() {
-        this.userService.getUser().subscribe(({payload : user}) => {
-            this.assignProperties(user);
+        this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
+            this.handleTelegram(telegram);
+		}, err => console.log(err));
+        this.initProfile();
+    }
+
+    private initProfile() {
+        this.unsubsribe();
+        this.profileSubscription = this.userService.getUser().subscribe(({payload : profile}) => {
+            console.log(profile);
+            this.parseProfile(profile);
             this.cdr.detectChanges();
         }, err => {
             this.signOut();
         })
     }
 
-    private assignProperties(user){
-        Object.keys(user).forEach(key => {
-            switch (true) {
-                case !!key.match(/subscriptions/gi):
-                    this.userSubscriptionsObj = user[key];
-                    break;
-
-                case !!key.match(/paymentMethods/gi):
-                    this.userCardsObj = user[key].cards;
-                    break;
-
-                default:
-                    this.userInfo.push({key, value: user[key]});
-                    break;
-            }
-        });
+    private parseProfile(profileObj){
+        this.userSubscriptions = profileObj.subscriptions;
+        this.userCards = profileObj.sources;
+        this.userInfo = profileObj.propsToDisplay;
     }
 
     public signOut() {
         this.authService.deleteAuthorizationToken();
         this.router.navigate(['login']);
+    }
+
+    private unsubsribe() {
+        if(this.profileSubscription) {
+            this.profileSubscription.unsubscribe();
+        }
+        this.profileSubscription = null;
+    }
+
+    ngOnDestroy() {
+        this.unsubsribe();
+        this.telegramSubscription.unsubscribe();
+        this.telegramSubscription = null;
     }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { PaymentService } from '../../services/payment/payment.service';
+import { PaymentService } from '../../services/api/payment/payment.service';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
 import { Subscription } from 'rxjs';
@@ -15,8 +15,8 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
     @ViewChild('cardContainer') private cardContainer: ElementRef;
 
     private telegramSubscription: Subscription;
-    public elements: any;
-    public card: any;
+    private elements: any;
+    private card: any;
     private cardHandler = this.onChange.bind(this);
     public errorMessage: string | null = null;
 
@@ -59,7 +59,24 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
       }
 
     private onSubmit() {
-        this.paymentService.createPaymentToken(this.card);
+        this.paymentService.addCard(this.card).then(obs=> {
+            obs.subscribe(res => {
+                let telegram: Telegram = { 
+                    ModalWrapperComponent: { 
+                        payload: {
+                            closeModal: []
+                        }
+                    },
+                    ProfileComponent: {
+                        payload: {
+                            initProfile: []
+                        }
+                    }
+                };
+        
+                this.telegramService.sendTelegram(telegram);
+            }, err => console.log(err));
+        });
     }
 
     ngOnDestroy() {

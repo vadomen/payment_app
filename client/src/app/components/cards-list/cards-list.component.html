@@ -1,8 +1,7 @@
 <h5>Cards</h5>
 <button class="btn" (click)="openModal('CardEditorComponent')">Add a new card</button>
 <ul class="collection">
-    <li *ngFor="let card of cards?.cardsList" class="collection-item">
-
+    <li *ngFor="let card of cards?.data" class="collection-item">
+        <span>{{card.brand}} {{card.country}} {{card.last4}}</span><button class="btn right btn-small">Edit</button><button class="btn right btn-small">Delete</button>
     </li>
 </ul>
-
