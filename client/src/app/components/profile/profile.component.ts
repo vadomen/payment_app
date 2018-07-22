@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../../services/api/user.service';
-import { UserStoreService } from '../../services/stores/user-store.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 
@@ -18,7 +17,6 @@ export class ProfileComponent implements OnInit {
 
     constructor(private userService: UserService, 
                 private authService: AuthService,
-                private userStore: UserStoreService, 
                 private router: Router,
                 private cdr: ChangeDetectorRef) { }
 
@@ -26,7 +24,6 @@ export class ProfileComponent implements OnInit {
         this.userService.getUser().subscribe(({payload : user}) => {
             this.assignProperties(user);
             this.cdr.detectChanges();
-            this.userStore.setCurrentUser(user);
         }, err => {
             this.signOut();
         })

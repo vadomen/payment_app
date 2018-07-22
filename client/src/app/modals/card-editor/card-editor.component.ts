@@ -54,13 +54,12 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
                 }
             }
         };
-        
+
         this.telegramService.sendTelegram(telegram);
       }
 
     private onSubmit() {
-        console.log('hello');
-        // this.paymentService.createPaymentToken(this.card);
+        this.paymentService.createPaymentToken(this.card);
     }
 
     ngOnDestroy() {

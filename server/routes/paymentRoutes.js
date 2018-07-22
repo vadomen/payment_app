@@ -4,16 +4,31 @@ const errorHandler = ({message}) => {
     res.status(403).json({error: message});
 }
 
-const createCustomer = (req, res) => {
-    customerService.createCustomer(req.body);
+const addCard = (req, res) => {
+}
+const updateCard = (req, res) => {
+}
+const deleteCard = (req, res) => {
+
 }
 
-
 module.exports = {
-    'create' : {
-        path: '/customer/create',
-        handler : createCustomer,
+    'addCard' : {
+        path: '/user/payment/addcard',
+        handler : addCard,
         method: 'post',
-        middlewares: []
+        middlewares: ['authenticate']
+    },
+    'updateCard': {
+        path: '/user/payment/updatecard',
+        handler : updateCard,
+        method: 'post',
+        middlewares: ['authenticate']
+    },
+    'deleteCard': {
+        path: '/user/payment/deletecard',
+        handler : deleteCard,
+        method: 'post',
+        middlewares: ['authenticate']
     }
 }

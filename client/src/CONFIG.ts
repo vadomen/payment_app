@@ -8,7 +8,7 @@ export default {
             }
         },
         STRIPE : {
-            PUBLISHABLE_KEY: 'k_test_zkj5F5bIbvlv03duhndT1amC'
+            PUBLISHABLE_KEY: 'pk_test_zkj5F5bIbvlv03duhndT1amC'
         }
     }
 
