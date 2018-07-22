@@ -1,7 +1,10 @@
 <div class="logger">
-    <h5 class="center-align">Logger</h5>
-    <div class="row messages-cont">
-
-    </div>
-
+    <h5 class="center-align">Logger <button (click)="logs = []" class="right btn btn-flat red lighten-3">Clear logs</button></h5>
+    <div class="divider"></div>
+    <ul class="collection">
+        <li *ngFor="let log of logs" class="collection-item">
+            <p><span class="badge">URL</span>{{log.url}}</p>
+            <p><span class="badge">{{log.type}}</span>{{log.message}}</p>
+        </li>
+    </ul>
 </div>

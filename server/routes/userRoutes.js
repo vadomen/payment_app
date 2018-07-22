@@ -7,26 +7,26 @@ const handleError = (res, {message}) => {
 const signUpUser = (req, res) => {
     userService.signUpUser(req.body)
         .then((user) => {
-            res.json({message: 'A new user has been successfully created!', payload: user })})
+            res.json({message: `A new user ${user._id} has been successfully created.`, payload: user })})
         .catch(err => handleError(res, err));
 }
 
 const signInUser = (req, res) => {
     userService.signInUser(req.body)
-        .then(respond => {
-            res.json({message: '', payload: respond})})
+        .then(user => {
+            res.json({message: `The user ${user.id} signed in.`, payload: user})})
         .catch(err => handleError(res, err));
 }
 
 const signOutUser = (req, res) => {
     userService.signOutUser(req._currentUser)
-        .then(() => {
-            res.json({message: 'The user has been successfully removed!', payload: {}})})
+        .then((user) => {
+            res.json({message: `The user ${user._id} has been successfully removed.`, payload: {user}})})
         .catch(err => handleError(res, err));
 }
 
 const getUser = ({_currentUser: user}, res) => {
-    res.json({message: `A user ${user._id} has been retreived`, payload: user})
+    res.json({message: `The user ${user._id} has been retreived.`, payload: user})
 }
 
 module.exports = {

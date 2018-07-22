@@ -15,7 +15,7 @@ class UserService {
         let [isUsernamePresent, isEmailPresent] = await this.verifyUniqueness(username, email);
 
         if(isUsernamePresent || isEmailPresent) {
-            throw new Error('A user with such email or username already exists!');
+            throw new Error('A user with such email or username already exists.');
         } 
 
         try {
@@ -56,15 +56,15 @@ class UserService {
                 const token = jwt.sign({id: user._id, username: user.username}, config.secret);
                 return {id: user._id, token};
             } else {
-                throw new Error('Invalid password');
+                throw new Error('Invalid password.');
             }
         } else {
-            throw new Error('No user found by such an email or username');
+            throw new Error('No user found by such an email or username.');
         }
     }
 
     async getUserById(id) {
-        return User.findOne({'_id': id });
+        return User.findOne({'_id': id }, ['username', 'email', 'customerId', 'subscriptions', 'paymentMethods']);
     }
 
     async verifyUniqueness(username, email) {

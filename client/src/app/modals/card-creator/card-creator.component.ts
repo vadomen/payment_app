@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'card-editor',
-  templateUrl: './card-editor.component.html',
-  styleUrls: ['./card-editor.component.less'],
+  selector: 'card-creator',
+  templateUrl: './card-creator.component.html',
+  styleUrls: ['./card-creator.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardEditorComponent implements OnInit {
+export class CardCreatorComponent implements OnInit {
 
   constructor() { }
 

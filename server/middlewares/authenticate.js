@@ -14,13 +14,13 @@ const authenticate = async (req, res, next) => {
                 req._currentUser = user;
                 return next();
             } else {
-                res.status(404).json({message: `Such a user does not exist!`});
+                res.status(404).json({message: `Such a user does not exist.`});
             }
         } catch({message}) {
             res.status(401).json({message: `Failed to authenticate.${message}`});
         }
     } else {
-        res.status(401).json({message: 'No token provided'});
+        res.status(401).json({message: 'No token provided.'});
     }
 }
 

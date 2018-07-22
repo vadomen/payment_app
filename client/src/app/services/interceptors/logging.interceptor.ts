@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpResponse, HttpEvent } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { LoggingService } from '../logging.service';
+import { LoggingService } from '../logging/logging.service';
  
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {

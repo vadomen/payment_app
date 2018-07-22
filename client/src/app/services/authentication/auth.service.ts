@@ -16,5 +16,6 @@ export class AuthService {
 
     public deleteAuthorizationToken(): void {
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
     }
 }
