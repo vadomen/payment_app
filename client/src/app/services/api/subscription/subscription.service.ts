@@ -26,7 +26,7 @@ export class SubscriptionService {
         return this.http.post(`${this.url}${SUBSCRIPTION.INIT}`, { headers: this.headers });
     }
 
-    public suspendSubscription(subscriptionId): Observable<any> {
+    public suspendSubscription(subscriptionId: string): Observable<any> {
         return this.http.post(`${this.url}${SUBSCRIPTION.SUSPEND}`, JSON.stringify({subscriptionId}), { headers: this.headers });
     }
 }

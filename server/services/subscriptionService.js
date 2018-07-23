@@ -24,8 +24,13 @@ class SubscriptionService {
     }
 
     
-    async suspendSubscription(subscriptionId) {
+    async suspendSubscription({subscriptionId}) {
         const confirmation = await stripe.subscriptions.del(subscriptionId);
+        if(confirmation) {
+            return confirmation;
+        } else {
+            throw new Error('Unable to suspend. Plase try again later');
+        }
     }
 
 }

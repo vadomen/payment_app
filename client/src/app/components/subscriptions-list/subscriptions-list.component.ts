@@ -24,8 +24,16 @@ export class SubscriptionsListComponent implements OnInit {
     }
 
     public initSubscription() {
+        this.setLoading(true);
         this.subscriptionService.initSibscription().subscribe(
-            res => this.initProfile(),
+            () => this.initProfile(),
+            err => console.log(err));
+    }
+
+    public suspendSubscription() {
+        this.setLoading(true);
+        this.subscriptionService.suspendSubscription((this.subscriptions.data[0].id)).subscribe(
+            () => this.initProfile(),
             err => console.log(err));
     }
 
@@ -38,6 +46,17 @@ export class SubscriptionsListComponent implements OnInit {
             }
         };
 
+        this.telegramService.sendTelegram(telegram);
+    }
+
+    private setLoading(value: boolean) {
+        let telegram: Telegram = { 
+            ProfileComponent: { 
+                payload: {
+                    isLoading: value,
+                }
+            }
+        };
         this.telegramService.sendTelegram(telegram);
     }
 

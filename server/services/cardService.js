@@ -11,12 +11,8 @@ class CardService {
         if(card) {
             return card;
         } else {
-            throw new Error('Unable to add a new cart. Plase try again later');
+            throw new Error('Unable to add a new card. Plase try again later');
         }
-    }
-
-    async setDefaultCard() {
-        
     }
 
     async deleteCard({user, cardId}) {
@@ -24,12 +20,8 @@ class CardService {
         if(confirmation) {
             return confirmation;
         } else {
-            throw new Error('Unable delete a card. Plase try again later');
+            throw new Error('Unable to delete a card. Please try again later');
         }
-    }
-
-    async updateCard() {
-
     }
     
 }

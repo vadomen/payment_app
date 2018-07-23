@@ -11,7 +11,7 @@ const initSubscription = (req, res) => {
 }
 
 const suspendSubscription = (req, res) => {
-    subscriptionService.suspendSubscription(req).then(confirmation => {
+    subscriptionService.suspendSubscription(req.body).then(confirmation => {
         res.json({message: `The subscription ${confirmation.id} has been suspended.`, payload: confirmation});
     }).catch(err => handleError(res, err));
 }

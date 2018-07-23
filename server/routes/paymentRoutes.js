@@ -10,25 +10,17 @@ const addCard = (req, res) => {
     }).catch(err => handleError(res, err));
 }
 
-const updateCard = (req, res) => {
-}
-
 const deleteCard = (req, res) => {
     cardService.deleteCard({user: req._currentUser, cardId: req.body.cardId}).then(confirmation => {
         res.json({message: `The card ${confirmation.id} has been deleted.`, payload: confirmation});
     }).catch(err => handleError(res, err));
 }
 
+
 module.exports = {
     'addCard' : {
         path: '/user/payment/addcard',
         handler : addCard,
-        method: 'post',
-        middlewares: ['authenticate']
-    },
-    'updateCard': {
-        path: '/user/payment/updatecard',
-        handler : updateCard,
         method: 'post',
         middlewares: ['authenticate']
     },

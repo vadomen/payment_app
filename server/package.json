@@ -9,12 +9,12 @@
   "author": "Oleksandr Buchek",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
+    "mailgun-js": "^0.20.0",
     "mongoose": "^5.2.4",
     "stripe": "^6.3.0"
   }

@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
             ModalWrapperComponent: { 
                 payload: {
                     openModal: modalToOpen,
-                    modalHeader: 'Signup',
-                    successButton: 'Signup',
+                    modalHeader: 'Sign up',
+                    successButton: 'Sign up',
                     disableSuccessButton : true
                 }
             }
