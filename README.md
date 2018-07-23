@@ -1,8 +1,8 @@
 The 'Client' and 'Server' folders represent 2 parts of the application.
 
-Install required dependancies by running "npm install" inside both folders.
+At first you need to install required dependencies by running "npm install" inside each of 2 folders mentioned above.
 
-Then, to run applications please enters the next commands in the console:
+Then, to run applications please enter the next commands in your console:
 
 1) Unside the 'server' folder :
   node app.js
