@@ -6,7 +6,7 @@ const handleError = (res, {message}) => {
 
 const initSubscription = (req, res) => {
     subscriptionService.initSubscription(req).then(subscription => {
-        res.json({message: `The subscription ${subscription.id} has been actived.`, payload: subscription});
+        res.json({message: `The subscription ${subscription.id} has been activated.`, payload: subscription});
     }).catch(err => handleError(res, err));
 }
 
