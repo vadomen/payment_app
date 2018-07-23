@@ -5,6 +5,6 @@ To run each of these please enters the next commands in the console:
 1) Unside the 'server' folder :
 node app.js
 
-2)Inside the 'client' folder:
+2) Inside the 'client' folder:
 ng serve
 
