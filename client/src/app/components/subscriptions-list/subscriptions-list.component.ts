@@ -27,14 +27,14 @@ export class SubscriptionsListComponent implements OnInit {
         this.setLoading(true);
         this.subscriptionService.initSibscription().subscribe(
             () => this.initProfile(),
-            err => console.log(err));
+            err => this.setLoading(false));
     }
 
     public suspendSubscription() {
         this.setLoading(true);
         this.subscriptionService.suspendSubscription((this.subscriptions.data[0].id)).subscribe(
             () => this.initProfile(),
-            err => console.log(err));
+            err => this.setLoading(false));
     }
 
     private initProfile() {
