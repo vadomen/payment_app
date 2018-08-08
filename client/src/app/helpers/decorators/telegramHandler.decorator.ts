@@ -1,4 +1,4 @@
-import { Telegram } from "../../interfaces/telegram";
+import { Telegram } from "../../interfaces/telegram.interface";
 import { filter } from "rxjs/operators";
 
 function filterReceiver ({ [this.constructor.name] : component }){

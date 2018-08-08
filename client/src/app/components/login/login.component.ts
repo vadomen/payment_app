@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { UserService } from '../../services/api/user/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 
 @Component({

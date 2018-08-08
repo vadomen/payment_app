@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterContentInit, DoCheck, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { PaymentService } from '../../services/api/payment/payment.service';
 

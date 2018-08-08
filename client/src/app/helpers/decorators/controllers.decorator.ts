@@ -1,4 +1,4 @@
-import { Telegram } from "../../interfaces/telegram";
+import { Telegram } from "../../interfaces/telegram.interface";
 
 
 function sendTelegram(telegram) {

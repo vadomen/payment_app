@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 
 @Injectable({
   providedIn: 'root'

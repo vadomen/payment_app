@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/api/user/user.service';
 import { skipWhile } from 'rxjs/operators';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 
 @TelegramHandler()
 @Component({

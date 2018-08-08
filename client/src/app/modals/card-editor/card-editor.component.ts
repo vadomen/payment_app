@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { PaymentService } from '../../services/api/payment/payment.service';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 import { Subscription } from 'rxjs';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { CloseModal, InitProfile} from '../../helpers/decorators/controllers';
 
 @TelegramHandler()

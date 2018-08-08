@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { SubscriptionService } from '../../services/api/subscription/subscription.service';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { Telegram } from '../../interfaces/telegram';
+import { Telegram } from '../../interfaces/telegram.interface';
 
 @Component({
     selector: 'subscriptions-list',

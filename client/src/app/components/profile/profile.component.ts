@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { Telegram } from '../../interfaces/telegram';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
+import { Telegram } from '../../interfaces/telegram.interface';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 
 @TelegramHandler()
 @Component({
