@@ -4,6 +4,7 @@ import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
 import { Subscription } from 'rxjs';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
+import { CloseModal, InitProfile} from '../../helpers/decorators/controllers';
 
 @TelegramHandler()
 @Component({
@@ -79,29 +80,12 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.telegramService.sendTelegram(telegram);
     }
+    
+    @InitProfile()
+    private initProfile() { }
 
-    private initProfile() {
-        let telegram: Telegram = { 
-            ProfileComponent: {
-                payload: {
-                    initProfile: []
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
-
-    private closeModal() {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
-                payload: {
-                    isLoading: false,
-                    closeModal: []
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
+    @CloseModal()
+    private closeModal() { }
 
     ngOnDestroy() {
         this.card.removeEventListener('change', this.cardHandler);
