@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/api/user/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';

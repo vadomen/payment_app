@@ -3,15 +3,16 @@ import { PaymentService } from '../../services/api/payment/payment.service';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
 import { Subscription } from 'rxjs';
-import { TelegramHandler } from '../../interfaces/telegramHandler';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
 
+@TelegramHandler()
 @Component({
   selector: 'card-editor',
   templateUrl: './card-editor.component.html',
   styleUrls: ['./card-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardEditorComponent extends TelegramHandler implements OnInit, AfterViewInit, OnDestroy {
+export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
 
     private telegramSubscription: Subscription;
@@ -23,15 +24,11 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
     constructor(private paymentService: PaymentService, 
                 private cdr: ChangeDetectorRef, 
                 private telegramService: TelegramService) {
-        super();
         this.elements = this.paymentService.initStripeElements();
     }
 
     ngOnInit() {
-		this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
-            this.handleTelegram(telegram);
-            this.cdr.detectChanges();
-		}, err => console.log(err));
+
     }
 
     ngAfterViewInit() {
@@ -42,9 +39,9 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
 
     onChange({ error, complete }) {
         if (error) {
-          this.errorMessage= error.message;
+            this.errorMessage= error.message;
         } else {
-          this.errorMessage = null;
+            this.errorMessage = null;
         }
         this.cdr.detectChanges();
 
@@ -107,8 +104,6 @@ export class CardEditorComponent extends TelegramHandler implements OnInit, Afte
     }
 
     ngOnDestroy() {
-        this.telegramSubscription.unsubscribe();
-        this.telegramSubscription = null;
         this.card.removeEventListener('change', this.cardHandler);
         this.card.destroy();
     }

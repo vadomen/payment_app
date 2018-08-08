@@ -18,4 +18,17 @@ export class TelegramService {
 	public receiveTelegram(): Observable<Telegram> {
 		return this.communicationSubject.asObservable();
 	}
+
+	public handleTelegram(component, { [component.constructor.name] : telegram } : Telegram) {
+			const payload = telegram.payload;
+            Object.keys(payload).forEach(prop => {
+                if(prop in component){
+                    if(typeof component[prop] === 'function') {
+                        Array.isArray(payload[prop]) ? component[prop](...payload[prop]) : component[prop](payload[prop]);
+                    } else {
+                        component[prop] = payload[prop];
+                    }
+                }
+            });
+    }
 }

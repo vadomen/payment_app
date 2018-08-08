@@ -1,16 +1,18 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { TelegramHandler } from '../../interfaces/telegramHandler';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
 
+
+@TelegramHandler()
 @Component({
   selector: 'modal-wrapper',
   templateUrl: './modal-wrapper.component.html',
   styleUrls: ['./modal-wrapper.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalWrapperComponent extends TelegramHandler implements OnInit {
+export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@ViewChild('modal') modal: ElementRef;
 
@@ -25,16 +27,13 @@ export class ModalWrapperComponent extends TelegramHandler implements OnInit {
 
     public isLoading: boolean = false;
 
-	constructor(private telegramService: TelegramService, private cdr: ChangeDetectorRef) { 
-		super();
+    constructor(
+                private telegramService: TelegramService, 
+                private cdr: ChangeDetectorRef
+            ) { 
 	}
 
-	ngOnInit() {
-		this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
-            this.handleTelegram(telegram);
-            this.cdr.detectChanges();
-		}, err => console.log(err));
-	}
+	ngOnInit() { }
 
 	ngAfterViewInit() {
 		M.Modal.init(this.modal.nativeElement, { dismissible: false });
@@ -62,8 +61,5 @@ export class ModalWrapperComponent extends TelegramHandler implements OnInit {
         this.telegramService.sendTelegram(telegram);
     }
 
-	ngOnDestroy() {
-		this.telegramSubscription.unsubscribe();
-		this.telegramSubscription = null;
-	}
+	ngOnDestroy() { }
 }

@@ -1,49 +1,47 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Telegram } from '../../interfaces/telegram';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Subscription } from 'rxjs';
-import { TelegramHandler } from '../../interfaces/telegramHandler';
 import { UserService } from '../../services/api/user/user.service';
+import { skipWhile } from 'rxjs/operators';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
 
+@TelegramHandler()
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SignupComponent extends TelegramHandler implements OnInit, AfterViewInit, OnDestroy{
+export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild('signupForm') private signupForm: NgForm;
 
     private formSubscription: Subscription;
     private telegramSubscription: Subscription;
 
-    constructor(private telegramService: TelegramService, 
+    constructor(private telegramService: TelegramService,
+                private cdr: ChangeDetectorRef,
                 private userService: UserService) { 
-        super();
     }
 
-
-    ngOnInit() {
-        this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
-            this.handleTelegram(telegram);
-		}, err => console.log(err));
-
-    }
+    ngOnInit() { }
 
     ngAfterViewInit() {
-        this.formSubscription = this.signupForm.valueChanges.subscribe(values => {
-            let telegram: Telegram = { 
-                ModalWrapperComponent: { 
-                    payload: {
-                        disableSuccessButton : !this.signupForm.valid
+        this.formSubscription = this.signupForm.valueChanges
+            .pipe(skipWhile(values => Object.values(values).length < 3))
+            .subscribe(values => {
+                let telegram: Telegram = { 
+                    ModalWrapperComponent: { 
+                        payload: {
+                            disableSuccessButton : !this.signupForm.valid
+                        }
                     }
-                }
-            };
+                };
     
-            this.telegramService.sendTelegram(telegram);
-        })
+                this.telegramService.sendTelegram(telegram);
+        });
     }
 
     public onSubmit() {
@@ -80,8 +78,6 @@ export class SignupComponent extends TelegramHandler implements OnInit, AfterVie
     ngOnDestroy() {
         this.formSubscription.unsubscribe();
         this.formSubscription = null;
-        this.telegramSubscription.unsubscribe();
-        this.telegramSubscription = null;
     }
 
 }

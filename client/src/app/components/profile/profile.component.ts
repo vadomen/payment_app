@@ -4,16 +4,17 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { TelegramHandler } from '../../interfaces/telegramHandler';
 import { Telegram } from '../../interfaces/telegram';
+import { TelegramHandler } from '../../helpers/decorators/telegramHandler';
 
+@TelegramHandler()
 @Component({
     selector: 'profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent extends TelegramHandler implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
     private profileSubscription: Subscription;
     private telegramSubscription: Subscription;
@@ -29,14 +30,9 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
                 private telegramService: TelegramService,
                 private router: Router,
                 private cdr: ChangeDetectorRef) { 
-                    super();
                 }
 
     ngOnInit() {
-        this.telegramSubscription = this.telegramService.receiveTelegram().subscribe((telegram: Telegram) => {
-            this.handleTelegram(telegram);
-            this.cdr.detectChanges();
-		}, err => console.log(err));
         this.initProfile();
     }
 
@@ -49,7 +45,7 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
             this.cdr.detectChanges();
         }, () => {
             this.signOut();
-        })
+        });
     }
 
     private parseProfile(profileObj){
@@ -72,8 +68,6 @@ export class ProfileComponent extends TelegramHandler implements OnInit, OnDestr
 
     ngOnDestroy() {
         this.unsubsribe();
-        this.telegramSubscription.unsubscribe();
-        this.telegramSubscription = null;
     }
 
 }
