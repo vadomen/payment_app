@@ -13,7 +13,6 @@ export function CloseModal(): MethodDecorator {
     let telegram: Telegram = { 
         ModalWrapperComponent: { 
             payload: {
-                isLoading: false,
                 closeModal: []
             }
         }

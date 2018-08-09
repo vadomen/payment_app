@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
+import { take } from 'rxjs/operators';
 
 @TelegramHandler()
 @Component({
@@ -38,11 +39,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     private initProfile() {
         this.isLoading = true;
-        this.unsubsribe();
-        this.profileSubscription = this.userService.getUser().subscribe(({payload : profile}) => {
-            this.parseProfile(profile);
-            this.isLoading = false;
-            this.cdr.detectChanges();
+        this.profileSubscription = this.userService
+            .getUser()
+            .pipe(take(1))
+            .subscribe(({payload : profile}) => {
+                this.parseProfile(profile);
+                this.isLoading = false;
+                this.cdr.detectChanges();
         }, () => {
             this.signOut();
         });
@@ -59,15 +62,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.router.navigate(['login']);
     }
 
-    private unsubsribe() {
-        if(this.profileSubscription) {
-            this.profileSubscription.unsubscribe();
-        }
-        this.profileSubscription = null;
-    }
-
-    ngOnDestroy() {
-        this.unsubsribe();
-    }
+    ngOnDestroy() { }
 
 }
