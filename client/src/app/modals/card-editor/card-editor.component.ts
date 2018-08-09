@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import { PaymentService } from '../../services/api/payment/payment.service';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
@@ -15,8 +15,10 @@ import { CloseModal, InitProfile} from '../../helpers/decorators/controllers.dec
 })
 export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
+    @Input('data') private cardData: any;
 
     private telegramSubscription: Subscription;
+
     private elements: any;
     private card: any;
     private cardHandler = this.onChange.bind(this);
@@ -29,10 +31,11 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-
+        
     }
 
     ngAfterViewInit() {
+        console.log(this.cardData);
         this.card = this.elements.create('card');
         this.card.addEventListener('change', this.cardHandler);
         this.card.mount(this.cardContainer.nativeElement);

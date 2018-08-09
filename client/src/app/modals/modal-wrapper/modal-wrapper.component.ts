@@ -24,6 +24,7 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
     public successButton: string = 'Create';
     public cancelButton: string = 'Cancel';
     public disableSuccessButton: boolean = false;
+    public modalData: any = null;
 
     public isLoading: boolean = false;
 

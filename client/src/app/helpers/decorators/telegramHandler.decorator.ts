@@ -7,6 +7,7 @@ function filterReceiver ({ [this.constructor.name] : component }){
 
 export function TelegramHandler(): ClassDecorator {
     return function({ prototype }, { ngOnDestroy, ngOnInit } = prototype) {
+        
         prototype.ngOnInit = function(...args) {
             ngOnInit.apply(this, args);
             this.telegramSubscription = this.telegramService

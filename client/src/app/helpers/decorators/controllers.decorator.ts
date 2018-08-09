@@ -29,6 +29,7 @@ export function InitProfile(): MethodDecorator  {
             }
         }
     };
+    
     return sendTelegram(telegram);
 }
 

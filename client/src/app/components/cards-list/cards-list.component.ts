@@ -26,10 +26,11 @@ export class CardsListComponent implements OnInit {
         let telegram: Telegram = { 
             ModalWrapperComponent: { 
                 payload: {
-                    openModal: modalToOpen,
                     modalHeader: 'Add a new card',
                     successButton: 'Create a card',
-                    disableSuccessButton : true
+                    disableSuccessButton : true,
+                    modalData: { testProperty : 'TEST PROPERTY'},
+                    openModal: modalToOpen,
                 }
             }
         };
