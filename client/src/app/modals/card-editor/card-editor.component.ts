@@ -4,7 +4,7 @@ import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { Subscription } from 'rxjs';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
-import { CloseModal, InitProfile} from '../../helpers/decorators/controllers';
+import { CloseModal, InitProfile} from '../../helpers/decorators/controllers.decorator';
 
 @TelegramHandler()
 @Component({

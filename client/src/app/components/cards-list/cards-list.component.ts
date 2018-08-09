@@ -10,7 +10,7 @@ import { PaymentService } from '../../services/api/payment/payment.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsListComponent implements OnInit {
-    @Input('cards') private cards: any;
+    @Input('cards') public cards: any;
 
     private defaultCard: string | null = null;
     public cardsList: any[] = [];

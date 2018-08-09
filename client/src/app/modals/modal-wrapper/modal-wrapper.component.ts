@@ -45,7 +45,7 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.modalInstance.open();
 	}
 
-	private closeModal() {
+	public closeModal() {
 		this.activeModal = null;
         this.modalInstance.close();
     }
