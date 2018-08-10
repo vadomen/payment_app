@@ -7,13 +7,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-//ROUTING MODULES
+// ROUTING MODULES
 import { AppRoutingModule, routingComponents } from './app.routing-module';
 
 // CUSTOM MODULES
 import { ModalsModules } from './modals/modals.module';
 
-//INTERCEPTORS
+// INTERCEPTORS
 import { httpInterceptorProviders } from './services/interceptors';
 
 // COMPONENTS

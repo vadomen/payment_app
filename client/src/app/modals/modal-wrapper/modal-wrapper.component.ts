@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef,
+        ChangeDetectionStrategy, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
@@ -14,11 +15,11 @@ import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decora
 })
 export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
-	@ViewChild('modal') modal: ElementRef;
+    @ViewChild('modal') modal: ElementRef;
 
-	private telegramSubscription: Subscription;
+    private telegramSubscription: Subscription;
 
-	public modalInstance;
+    public modalInstance;
     public activeModal: string | null = null;
     public modalHeader: string = '';
     public successButton: string = 'Create';
@@ -28,33 +29,32 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public isLoading: boolean = false;
 
-    constructor(
-                private telegramService: TelegramService, 
+    constructor (
+                private telegramService: TelegramService,
                 private cdr: ChangeDetectorRef
-            ) { 
-	}
+            ) {}
 
-	ngOnInit() { }
+    ngOnInit() { }
 
-	ngAfterViewInit() {
-		M.Modal.init(this.modal.nativeElement, { dismissible: false });
-		this.modalInstance = M.Modal.getInstance(this.modal.nativeElement);
-	}
+    ngAfterViewInit() {
+        M.Modal.init(this.modal.nativeElement, { dismissible: false });
+        this.modalInstance = M.Modal.getInstance(this.modal.nativeElement);
+    }
 
-	private openModal(modalToOpen: string) {
-		this.activeModal = modalToOpen;
-		this.modalInstance.open();
-	}
+    private openModal(modalToOpen: string) {
+        this.activeModal = modalToOpen;
+        this.modalInstance.open();
+    }
 
-	public closeModal() {
+    public closeModal() {
         this.isLoading = false;
-		this.activeModal = null;
+        this.activeModal = null;
         this.modalInstance.close();
     }
-    
+
     public onSubmit() {
-        let telegram: Telegram = { 
-            [this.activeModal]: { 
+        const telegram: Telegram = {
+            [this.activeModal]: {
                 payload: {
                     onSubmit: []
                 }
@@ -63,5 +63,5 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
         this.telegramService.sendTelegram(telegram);
     }
 
-	ngOnDestroy() { }
+    ngOnDestroy() { }
 }

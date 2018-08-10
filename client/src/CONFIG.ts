@@ -7,9 +7,9 @@ export default {
                 GET_USER: 'user/get',
                 SIGN_UP: 'user/signup'
             },
-            PAYMENT: {
-                ADD_CARD: 'user/payment/addcard',
-                DELETE_CARD: 'user/payment/deletecard'
+            CARD: {
+                ADD_CARD: 'user/card/addcard',
+                DELETE_CARD: 'user/card/deletecard'
             },
             SUBSCRIPTION: {
                 INIT: 'user/subscription/init',

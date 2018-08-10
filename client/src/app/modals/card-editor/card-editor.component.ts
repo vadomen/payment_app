@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { PaymentService } from '../../services/api/payment/payment.service';
+import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild,
+        ElementRef, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { CardApiService } from '../../services/api/payment/card.api';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { Subscription } from 'rxjs';
@@ -15,7 +16,7 @@ import { CloseModal, InitProfile} from '../../helpers/decorators/controllers.dec
 })
 export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
-    @Input('data') private cardData: any;
+    @Input('data') private data: any;
 
     private telegramSubscription: Subscription;
 
@@ -24,18 +25,16 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private cardHandler = this.onChange.bind(this);
     public errorMessage: string | null = null;
 
-    constructor(private paymentService: PaymentService, 
-                private cdr: ChangeDetectorRef, 
+    constructor(private paymentService: CardApiService,
+                private cdr: ChangeDetectorRef,
                 private telegramService: TelegramService) {
         this.elements = this.paymentService.initStripeElements();
     }
 
-    ngOnInit() {
-        
-    }
+    ngOnInit() {}
 
     ngAfterViewInit() {
-        console.log(this.cardData);
+        console.log(this.data);
         this.card = this.elements.create('card');
         this.card.addEventListener('change', this.cardHandler);
         this.card.mount(this.cardContainer.nativeElement);
@@ -43,14 +42,14 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onChange({ error, complete }) {
         if (error) {
-            this.errorMessage= error.message;
+            this.errorMessage = error.message;
         } else {
             this.errorMessage = null;
         }
         this.cdr.detectChanges();
 
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     disableSuccessButton : !complete
                 }
@@ -62,7 +61,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private onSubmit() {
         this.setLoading(true);
-        this.paymentService.addCard(this.card).then(obs=> {
+        this.paymentService.addCard(this.card).then(obs => {
             obs.subscribe(res => {
                 this.initProfile();
                 this.closeModal();
@@ -74,8 +73,8 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private setLoading(value: boolean) {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     isLoading: value,
                 }
@@ -83,7 +82,6 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.telegramService.sendTelegram(telegram);
     }
-    
     @InitProfile()
     private initProfile() { }
 

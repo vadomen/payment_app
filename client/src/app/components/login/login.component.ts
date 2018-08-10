@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { UserService } from '../../services/api/user/user.service';
+import { UserApiService } from '../../services/api/user/user.api';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Telegram } from '../../interfaces/telegram.interface';
@@ -13,15 +13,15 @@ import { TelegramService } from '../../services/communication/telegram.service';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(private userService: UserService, 
-                private authService: AuthService, 
+    constructor(private userService: UserApiService,
+                private authService: AuthService,
                 private router: Router,
                 private telegramService: TelegramService) { }
 
     ngOnInit() {
         const token = this.authService.getAuthorizationToken();
         const userId = this.authService.getUserId();
-        if(token && userId) {
+        if (token && userId) {
             this.navigateToProfile(userId);
         }
     }
@@ -41,8 +41,8 @@ export class LoginComponent implements OnInit {
     }
 
     public openModal(modalToOpen: string) {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     openModal: modalToOpen,
                     modalHeader: 'Sign up',

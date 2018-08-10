@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, AfterContentInit, DoCheck, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { PaymentService } from '../../services/api/payment/payment.service';
+import { CardApiService } from '../../services/api/payment/card.api';
 
 @Component({
     selector: 'cards-list',
@@ -16,15 +16,15 @@ export class CardsListComponent implements OnInit {
     public cardsList: any[] = [];
 
     constructor(private telegramService: TelegramService,
-                private paymentService: PaymentService) { }
+                private paymentService: CardApiService) { }
 
     ngOnInit() {
 
     }
 
     public openModal(modalToOpen: string) {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     modalHeader: 'Add a new card',
                     successButton: 'Create a card',
@@ -47,13 +47,13 @@ export class CardsListComponent implements OnInit {
         });
     }
 
-	public trackByFn(index, item) {
+    public trackByFn(index, item) {
         return index;
     }
-    
+
     private setLoading(value: boolean) {
-        let telegram: Telegram = { 
-            ProfileComponent: { 
+        const telegram: Telegram = {
+            ProfileComponent: {
                 payload: {
                     isLoading: value
                 }
@@ -63,7 +63,7 @@ export class CardsListComponent implements OnInit {
     }
 
     private initProfile() {
-        let telegram: Telegram = { 
+        const telegram: Telegram = {
             ProfileComponent: {
                 payload: {
                     initProfile: []

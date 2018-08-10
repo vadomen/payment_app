@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SubscriptionService } from './subscription.service';
+import { SubscriptionApiService } from './subscription.api';
 
 describe('SubscriptionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SubscriptionService]
+      providers: [SubscriptionApiService]
     });
   });
 
-  it('should be created', inject([SubscriptionService], (service: SubscriptionService) => {
+  it('should be created', inject([SubscriptionApiService], (service: SubscriptionApiService) => {
     expect(service).toBeTruthy();
   }));
 });

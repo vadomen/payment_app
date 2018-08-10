@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { UserService } from '../../services/api/user/user.service';
+import { UserApiService } from '../../services/api/user/user.api';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Subscription } from 'rxjs';
@@ -26,11 +26,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     public isLoading: boolean = false;
 
-    constructor(private userService: UserService, 
+    constructor(private userService: UserApiService,
                 private authService: AuthService,
                 private telegramService: TelegramService,
                 private router: Router,
-                private cdr: ChangeDetectorRef) { 
+                private cdr: ChangeDetectorRef) {
                 }
 
     ngOnInit() {
@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         });
     }
 
-    private parseProfile(profileObj){
+    private parseProfile(profileObj) {
         this.userSubscriptions = profileObj.subscriptions;
         this.userCards = profileObj.sources;
         this.userInfo = profileObj.propsToDisplay;

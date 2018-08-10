@@ -1,7 +1,7 @@
 export interface Telegram {
     [propName: string]: {
         payload: {
-            [propName: string] : any
+            [propName: string]: any
         }
-    }
+    };
 }

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { LoggingService } from '../../logging/logging.service';
-import { logMessage } from '../../../interfaces/logMessage.interface';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { LogMessage } from '../../../interfaces/LogMessage.interface';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 const PUBLISHABLE_KEY = environment.STRIPE.PUBLISHABLE_KEY;
-const {BASE_URL, PAYMENT} = environment.API;
+const { BASE_URL, CARD } = environment.API;
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class CardApiService {
 
     private stripe: any;
     private stripeURL: string = 'https://js.stripe.com/v3/';
@@ -19,7 +19,7 @@ export class PaymentService {
           'Content-Type':  'application/json'
         });
 
-    constructor(private loggingService: LoggingService, private http: HttpClient) { 
+    constructor(private loggingService: LoggingService, private http: HttpClient) {
         this.stripe = Stripe(PUBLISHABLE_KEY);
     }
 
@@ -29,7 +29,7 @@ export class PaymentService {
 
     private async createPaymentToken(card: any) {
         const { token, error }  = await this.stripe.createToken(card);
-        let log : logMessage;
+        let log: LogMessage;
         if (error) {
             log = {type: 'ERROR', message: `Somothing went wront while creating a token.${error}`, url: this.stripeURL};
             this.loggingService.sendMessage(log);
@@ -37,18 +37,18 @@ export class PaymentService {
         } else {
             log = {type: 'MESSAGE', message: `A new token ${token.id} has been generated.`, url: this.stripeURL};
             this.loggingService.sendMessage(log);
-            return token; 
+            return token;
         }
     }
 
     public async addCard(card: any): Promise<any> {
         const token = await this.createPaymentToken(card);
-        if(token) {
-            return this.http.post(`${this.url}${PAYMENT.ADD_CARD}`, JSON.stringify(token), { headers: this.headers });
+        if (token) {
+            return this.http.post(`${this.url}${CARD.ADD_CARD}`, JSON.stringify(token), { headers: this.headers });
         }
     }
 
-    public deleteCard(cardId: any): Observable<any>{
-        return this.http.post(`${this.url}${PAYMENT.DELETE_CARD}`, JSON.stringify({cardId}), { headers: this.headers });
+    public deleteCard(cardId: any): Observable<any> {
+        return this.http.post(`${this.url}${CARD.DELETE_CARD}`, JSON.stringify({cardId}), { headers: this.headers });
     }
 }

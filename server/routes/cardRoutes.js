@@ -22,13 +22,13 @@ const deleteCard = (req, res) => {
 
 module.exports = {
     'addCard': {
-        path: '/user/payment/addcard',
+        path: '/user/card/addcard',
         handler: addCard,
         method: 'post',
         middlewares: ['authenticate']
     },
     'deleteCard': {
-        path: '/user/payment/deletecard',
+        path: '/user/card/deletecard',
         handler: deleteCard,
         method: 'post',
         middlewares: ['authenticate']

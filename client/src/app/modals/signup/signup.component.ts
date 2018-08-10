@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Subscription } from 'rxjs';
-import { UserService } from '../../services/api/user/user.service';
+import { UserApiService } from '../../services/api/user/user.api';
 import { skipWhile } from 'rxjs/operators';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 
@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private telegramService: TelegramService,
                 private cdr: ChangeDetectorRef,
-                private userService: UserService) { 
+                private userService: UserApiService) {
     }
 
     ngOnInit() { }
@@ -32,14 +32,13 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
         this.formSubscription = this.signupForm.valueChanges
             .pipe(skipWhile(values => Object.values(values).length < 3))
             .subscribe(values => {
-                let telegram: Telegram = { 
-                    ModalWrapperComponent: { 
+                const telegram: Telegram = {
+                    ModalWrapperComponent: {
                         payload: {
                             disableSuccessButton : !this.signupForm.valid
                         }
                     }
                 };
-    
                 this.telegramService.sendTelegram(telegram);
         });
     }
@@ -47,14 +46,13 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     public onSubmit() {
         this.setLoading(true);
         this.userService.signUpUser(this.signupForm.value).subscribe(
-            () => this.closeModal(), 
+            () => this.closeModal(),
             err => this.closeModal());
     }
 
-    
     private setLoading(value: boolean) {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     isLoading: value,
                 }
@@ -64,8 +62,8 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private closeModal() {
-        let telegram: Telegram = { 
-            ModalWrapperComponent: { 
+        const telegram: Telegram = {
+            ModalWrapperComponent: {
                 payload: {
                     isLoading: false,
                     closeModal: []

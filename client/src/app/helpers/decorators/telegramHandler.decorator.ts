@@ -1,13 +1,12 @@
-import { Telegram } from "../../interfaces/telegram.interface";
-import { filter } from "rxjs/operators";
+import { Telegram } from '../../interfaces/telegram.interface';
+import { filter } from 'rxjs/operators';
 
-function filterReceiver ({ [this.constructor.name] : component }){
+function filterReceiver ({ [this.constructor.name] : component }) {
     return component;
 }
 
 export function TelegramHandler(): ClassDecorator {
     return function({ prototype }, { ngOnDestroy, ngOnInit } = prototype) {
-        
         prototype.ngOnInit = function(...args) {
             ngOnInit.apply(this, args);
             this.telegramSubscription = this.telegramService
@@ -17,11 +16,11 @@ export function TelegramHandler(): ClassDecorator {
                     this.telegramService.handleTelegram(this, telegram);
                     this.cdr.detectChanges();
                 }, err => console.log(err));
-        }
+        };
 
         prototype.ngOnDestroy = function(...args) {
             ngOnDestroy.apply(this, args);
             this.telegramSubscription.unsubscribe();
-        }
-    }
+        };
+    };
 }

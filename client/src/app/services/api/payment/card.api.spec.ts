@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { PaymentService } from './payment.service';
+import { CardApiService } from './card.api';
 
 describe('PaymentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PaymentService]
+      providers: [CardApiService]
     });
   });
 
-  it('should be created', inject([PaymentService], (service: PaymentService) => {
+  it('should be created', inject([CardApiService], (service: CardApiService) => {
     expect(service).toBeTruthy();
   }));
 });

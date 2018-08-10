@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-const {BASE_URL, USER} = environment.API;
+const { BASE_URL, USER } = environment.API;
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService {
+export class UserApiService {
 
     private url: string = BASE_URL;
     private headers: HttpHeaders = new HttpHeaders({

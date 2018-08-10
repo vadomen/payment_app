@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./logger.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoggerComponent implements OnInit, OnDestroy{
+export class LoggerComponent implements OnInit, OnDestroy {
 
     private loggingSubscription: Subscription;
     public logs: {}[] = [];
@@ -23,8 +23,7 @@ export class LoggerComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy() {
-		this.loggingSubscription.unsubscribe();
-		this.loggingSubscription = null;
-	}
-
+        this.loggingSubscription.unsubscribe();
+        this.loggingSubscription = null;
+    }
 }

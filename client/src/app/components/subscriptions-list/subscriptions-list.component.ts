@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { SubscriptionService } from '../../services/api/subscription/subscription.service';
+import { SubscriptionApiService } from '../../services/api/subscription/subscription.api';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 
@@ -12,8 +12,7 @@ import { Telegram } from '../../interfaces/telegram.interface';
 export class SubscriptionsListComponent implements OnInit {
 
     @Input('subscriptions') public subscriptions: any;
-    
-    constructor(private subscriptionService: SubscriptionService,
+    constructor(private subscriptionService: SubscriptionApiService,
                 private telegramService: TelegramService) { }
 
     ngOnInit() {
@@ -38,7 +37,7 @@ export class SubscriptionsListComponent implements OnInit {
     }
 
     private initProfile() {
-        let telegram: Telegram = { 
+        const telegram: Telegram = {
             ProfileComponent: {
                 payload: {
                     initProfile: []
@@ -50,8 +49,8 @@ export class SubscriptionsListComponent implements OnInit {
     }
 
     private setLoading(value: boolean) {
-        let telegram: Telegram = { 
-            ProfileComponent: { 
+        const telegram: Telegram = {
+            ProfileComponent: {
                 payload: {
                     isLoading: value,
                 }
