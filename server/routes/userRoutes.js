@@ -7,7 +7,7 @@ const handleError = (res, {message}) => {
 const signUpUser = (req, res) => {
     userService.signUpUser(req.body)
         .then((user) => {
-            res.json({ message: `A new user ${user._id} has been successfully created.`, payload: user });
+            res.json({message: `A new user ${user._id} has been successfully created.`, payload: user});
         })
         .catch(err => handleError(res, err));
 };
