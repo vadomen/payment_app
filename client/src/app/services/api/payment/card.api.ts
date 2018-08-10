@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { LoggingService } from '../../logging/logging.service';
-import { LogMessage } from '../../../interfaces/LogMessage.interface';
+import { LogMessage } from '../../../interfaces/logMessage.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 const PUBLISHABLE_KEY = environment.STRIPE.PUBLISHABLE_KEY;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { LogMessage } from '../../interfaces/LogMessage.interface';
+import { LogMessage } from '../../interfaces/logMessage.interface';
 
 @Injectable({
   providedIn: 'root'
