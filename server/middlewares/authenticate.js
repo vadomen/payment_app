@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
         let user;
         try {
             decoded = await jwt.verify(token, config.secret);
-            user = await userService.getUserById(decoded.id);
+            user = await userService.getUserByProps([{_id: decoded.id}]);
             if (user) {
                 req._currentUser = user;
                 return next();

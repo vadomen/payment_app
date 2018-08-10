@@ -11,7 +11,7 @@ class UserService {
     }
 
     async signUpUser ({ password, username, email }) {
-        const isUnique = await this.verifyUniqueness(username, email);
+        const isUnique = await this.getUserByProps([{username}, {email}]);
         if (isUnique) {
             throw new Error('A user with such email or username already exists.');
         }
@@ -32,8 +32,7 @@ class UserService {
     }
 
     async signInUser ({login, password}) {
-        const Query = User.findOne({});
-        const user = await Query.or([{ email: login }, { username: login }]).exec();
+        const user = await this.getUserByProps([{email: login}, {username: login}], true);
         if (user) {
             if (bcrypt.compareSync(password, user.password)) {
                 const token = jwt.sign({id: user._id, username: user.username}, config.secret);
@@ -44,10 +43,6 @@ class UserService {
         } else {
             throw new Error('No user found by such an email or username.');
         }
-    }
-
-    async getUserById (id) {
-        return User.findOne({'_id': id}, ['username', 'email', 'customerId']);
     }
 
     async getUserProfile ({_doc: userObj}) {
@@ -63,9 +58,12 @@ class UserService {
         }
     }
 
-    async verifyUniqueness (username, email) {
-        const Query = User.findOne({});
-        return Query.or([{username: username}, {email: email}]).exec();
+    async getUserByProps (props, inclPassword = false) {
+        const Query = User.findOne();
+        return Query
+            .or(props)
+            .select(`username email customerId ${inclPassword ? 'password' : ''}`)
+            .exec();
     }
 }
 
