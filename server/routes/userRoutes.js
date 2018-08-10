@@ -21,9 +21,11 @@ const signInUser = (req, res) => {
 };
 
 const getUserProfile = ({_currentUser: userObj}, res) => {
-    userService.getUserProfile(userObj).then(user => {
-        res.json({message: `The user ${user._id} has been retreived.`, payload: user});
-    }).catch(err => handleError(res, err));
+    userService.getUserProfile(userObj)
+        .then(user => {
+            res.json({message: `The user ${user._id} has been retreived.`, payload: user});
+        })
+        .catch(err => handleError(res, err));
 };
 
 module.exports = {

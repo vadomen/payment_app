@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const Router = require('./components/router');
+const router = require('./components/router');
 const config = require('./config');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -19,7 +19,7 @@ function initMiddlewares () {
 }
 
 function initRouter () {
-    app.use('/', Router.routerInstance);
+    app.use('/', router);
 }
 
 function initServer () {

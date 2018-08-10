@@ -5,15 +5,19 @@ const handleError = (res, {message}) => {
 };
 
 const initSubscription = (req, res) => {
-    subscriptionService.initSubscription(req).then(subscription => {
-        res.json({message: `The subscription ${subscription.id} has been activated.`, payload: subscription});
-    }).catch(err => handleError(res, err));
+    subscriptionService.initSubscription(req)
+        .then(subscription => {
+            res.json({message: `The subscription ${subscription.id} has been activated.`, payload: subscription});
+        })
+        .catch(err => handleError(res, err));
 };
 
 const suspendSubscription = (req, res) => {
-    subscriptionService.suspendSubscription(req.body).then(confirmation => {
-        res.json({message: `The subscription ${confirmation.id} has been suspended.`, payload: confirmation});
-    }).catch(err => handleError(res, err));
+    subscriptionService.suspendSubscription(req.body)
+        .then(confirmation => {
+            res.json({message: `The subscription ${confirmation.id} has been suspended.`, payload: confirmation});
+        })
+        .catch(err => handleError(res, err));
 };
 
 module.exports = {

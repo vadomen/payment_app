@@ -11,9 +11,8 @@ class UserService {
     }
 
     async signUpUser ({ password, username, email }) {
-        const [isUsernamePresent, isEmailPresent] = await this.verifyUniqueness(username, email);
-
-        if (isUsernamePresent || isEmailPresent) {
+        const isUnique = await this.verifyUniqueness(username, email);
+        if (isUnique) {
             throw new Error('A user with such email or username already exists.');
         }
 
@@ -28,7 +27,7 @@ class UserService {
             }).save();
             return newUser;
         } catch ({message}) {
-            throw new Error(`Something went wrong while creating account. Please try again later.${message}`);
+            throw new Error(`Something went wrong while creating an account. Please try again later.${message}`);
         }
     }
 
@@ -65,9 +64,8 @@ class UserService {
     }
 
     async verifyUniqueness (username, email) {
-        const isUsernamePresent = await User.findOne({username});
-        const isEmailPresent = await User.findOne({email});
-        return [isUsernamePresent, isEmailPresent];
+        const Query = User.findOne({});
+        return Query.or([{username: username}, {email: email}]).exec();
     }
 }
 
