@@ -61,15 +61,13 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private onSubmit() {
         this.setLoading(true);
-        this.paymentService.addCard(this.card).then(obs => {
-            obs.subscribe(res => {
+        this.paymentService.addCard(this.card).subscribe(
+            () => {
                 this.initProfile();
                 this.closeModal();
             }, err => {
-                console.log(err);
                 this.closeModal();
             });
-        });
     }
 
     private setLoading(value: boolean) {
@@ -82,6 +80,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         this.telegramService.sendTelegram(telegram);
     }
+
     @InitProfile()
     private initProfile() { }
 
@@ -92,5 +91,4 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.card.removeEventListener('change', this.cardHandler);
         this.card.destroy();
     }
-
 }

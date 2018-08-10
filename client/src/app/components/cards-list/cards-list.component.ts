@@ -43,7 +43,6 @@ export class CardsListComponent implements OnInit {
             this.initProfile();
         }, err => {
             this.setLoading(false);
-            console.log(err);
         });
     }
 
