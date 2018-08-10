@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const express = require('express');
 const Router = require('./components/router');
@@ -8,28 +8,22 @@ const cors = require('cors');
 
 const app = express();
 
-class App {
-    constructor() {
-        this.initMiddlewares();
-        this.initRouter();
-        this.initServer();
-    }
+initMiddlewares();
+initRouter();
+initServer();
 
-    initMiddlewares() {
-        app.use(cors());
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: false }));
-    }
-
-    initRouter(){
-        app.use('/', Router.routerInstance);
-    }
-
-    initServer() {
-        app.listen(config.port, () => {
-            console.log('The server has started on port ' + config.port)
-        });
-    }
+function initMiddlewares () {
+    app.use(cors());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
 }
 
-new App();
+function initRouter () {
+    app.use('/', Router.routerInstance);
+}
+
+function initServer () {
+    app.listen(config.port, () => {
+        console.log('The server has started on port ' + config.port);
+    });
+}

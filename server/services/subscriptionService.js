@@ -3,36 +3,30 @@ const stripe = require('stripe')(config.stripe.secretKey);
 const planId = config.stripe.planId;
 
 class SubscriptionService {
-    constructor() {
-
-    }
-
-    async initSubscription({_currentUser: user}) {
+    async initSubscription ({_currentUser: user}) {
         const subscription = await stripe.subscriptions.create({
             customer: user.customerId,
             items: [
-              {
-                plan: planId,
-              },
+                {
+                    plan: planId
+                }
             ]
-          });
-        if(subscription) {
+        });
+        if (subscription) {
             return subscription;
         } else {
-            throw new Error('Unable to initiate a subscription.')
+            throw new Error('Unable to initiate a subscription.');
         }
     }
 
-    
-    async suspendSubscription({subscriptionId}) {
+    async suspendSubscription ({subscriptionId}) {
         const confirmation = await stripe.subscriptions.del(subscriptionId);
-        if(confirmation) {
+        if (confirmation) {
             return confirmation;
         } else {
             throw new Error('Unable to suspend. Plase try again later');
         }
     }
-
 }
 
 module.exports = new SubscriptionService();
