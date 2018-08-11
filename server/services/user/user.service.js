@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
-const config = require('../config');
-const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const customerService = require('./customerService');
 
-class UserService {
-    constructor () {
-        mongoose.connect(config.database);
-    }
+const config = require('../../config');
+const User = require('../../models/user.model');
+const customerService = require('../payment/customer.service');
 
+mongoose.connect(config.database);
+
+const UserService = {
     async signUpUser ({ password, username, email }) {
         const isUnique = await this.getUserByProps([{username}, {email}]);
         if (isUnique) {
@@ -29,7 +28,7 @@ class UserService {
         } catch ({message}) {
             throw new Error(`Something went wrong while creating an account. Please try again later.${message}`);
         }
-    }
+    },
 
     async signInUser ({login, password}) {
         const user = await this.getUserByProps([{email: login}, {username: login}], true);
@@ -43,7 +42,7 @@ class UserService {
         } else {
             throw new Error('No user found by such an email or username.');
         }
-    }
+    },
 
     async getUserProfile ({_doc: userObj}) {
         const customerObj = await customerService.getCustomerById(userObj.customerId);
@@ -56,7 +55,7 @@ class UserService {
         } else {
             throw new Error('Unabled to retreive a user profile. Please try again later.');
         }
-    }
+    },
 
     async getUserByProps (props, inclPassword = false) {
         const Query = User.findOne();
@@ -67,4 +66,4 @@ class UserService {
     }
 }
 
-module.exports = new UserService();
+module.exports = UserService;

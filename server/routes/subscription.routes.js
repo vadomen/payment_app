@@ -1,4 +1,4 @@
-const subscriptionService = require('../services/subscriptionService');
+const subscriptionService = require('../services/payment/subscription.service');
 
 const handleError = (res, {message}) => {
     res.status(404).json({message});

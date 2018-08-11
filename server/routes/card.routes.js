@@ -1,4 +1,4 @@
-const cardService = require('../services/cardService');
+const cardService = require('../services/payment/card.service');
 
 const handleError = (res, {message}) => {
     res.status(404).json({message});

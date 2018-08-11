@@ -1,4 +1,4 @@
-const userService = require('../services/userService');
+const userService = require('../services/user/user.service');
 
 const handleError = (res, {message}) => {
     res.status(404).json({message});

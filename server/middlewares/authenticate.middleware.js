@@ -1,6 +1,7 @@
-const config = require('../config');
+const { secret } = require('../config');
 const jwt = require('jsonwebtoken');
-const userService = require('../services/userService');
+
+const userService = require('../services/user/user.service');
 
 const authenticate = async (req, res, next) => {
     const token = req.headers['authorization'] ? req.headers['authorization'] : null;
@@ -8,7 +9,7 @@ const authenticate = async (req, res, next) => {
         let decoded;
         let user;
         try {
-            decoded = await jwt.verify(token, config.secret);
+            decoded = await jwt.verify(token, secret);
             user = await userService.getUserByProps([{_id: decoded.id}]);
             if (user) {
                 req._currentUser = user;

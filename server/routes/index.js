@@ -1,5 +1,5 @@
-const userRoutes = require('./userRoutes');
-const cardRoutes = require('./cardRoutes');
-const subscriptionRoutes = require('./subscriptionRoutes');
+const userRoutes = require('./user.routes');
+const cardRoutes = require('./card.routes');
+const subscriptionRoutes = require('./subscription.routes');
 
 module.exports = Object.assign({}, userRoutes, cardRoutes, subscriptionRoutes);
