@@ -50,11 +50,12 @@ export class CardsListComponent implements OnInit {
         }
 
         function getConfirmationConfig () {
+            const card = `${this.selectedCard.brand} ${this.selectedCard.country} ****${this.selectedCard.last4}`;
             return {
                 deleteCard: {
                     payload : {
                         modalData : {
-                            message : `Delete the card ${this.selectedCard.brand} ${this.selectedCard.country} ****${this.selectedCard.last4}?`,
+                            message : `Delete the card ${card}?`,
                             callback: this.deleteCard.bind(this, this.selectedCard.id)
                         }
                     }
@@ -62,7 +63,7 @@ export class CardsListComponent implements OnInit {
                 setDefaultCard: {
                     payload: {
                         modalData : {
-                            message : `Set the card ${this.selectedCard.brand} ${this.selectedCard.country} ****${this.selectedCard.last4} as default?`,
+                            message : `Set the card ${card} as default?`,
                             callback: this.setDefaultCard.bind(this, this.selectedCard.id)
                         }
                     }
