@@ -40,7 +40,7 @@ export class CardsListComponent implements OnInit {
         return index;
     }
     
-    private getModalConfig() {
+    private getModalConfig(): Telegram {
         return {
             ConfirmationComponent: {
                 payload : {
