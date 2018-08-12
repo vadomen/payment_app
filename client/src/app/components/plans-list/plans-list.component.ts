@@ -6,7 +6,6 @@ import { SubscriptionApiService } from '../../services/api/subscription/subscrip
 import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.decorator';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
-import { access } from 'fs';
 
 @TelegramHandler()
 @Component({
@@ -38,7 +37,7 @@ export class PlansListComponent implements OnInit, OnDestroy {
 
     private checkSubcription(subscriptions: any) {
         this.subscribedPlans = subscriptions.data
-            .reduce((acc, sub) => { acc[sub.plan.id] = true; return acc } ,{});
+            .reduce((acc, sub) => { acc[sub.plan.id] = true; return acc } , {});
     }
 
     public initSubscription(planId: string) {
