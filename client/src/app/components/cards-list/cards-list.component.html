@@ -7,10 +7,11 @@
         </div>
         <div class="col s8"> 
             <span class="m-right-10">{{card.country}}</span> <span>****{{card.last4}}</span>
-            <span class="orange-text right" *ngIf="card.id === cards.default_source">ACTIVE</span>
+            <span class="orange-text right" *ngIf="card.id === cards.default_source">Default</span>
+            <button class="btn btn-small right" *ngIf="card.id !== cards.default_source" (click)="selectedCard = card; openModal('ConfirmationComponent', 'setDefaultCard')">Make default</button>
         </div>
         <div class="col s2 right-align">
-            <fa-icon class="fa-trash" [icon]="['fas', 'trash']" (click)="cardToDelete = card.id; openModal('ConfirmationComponent')"></fa-icon>
+            <fa-icon class="fa-trash" [icon]="['fas', 'trash']" (click)="selectedCard = card; openModal('ConfirmationComponent', 'deleteCard')"></fa-icon>
         </div>
     </li>
 </ul>

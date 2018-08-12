@@ -19,6 +19,7 @@ export const modalTemplates = {
         payload: {
             modalHeader: 'Confirmation',
             successButton: 'Confirm',
+            disableSuccessButton : false,
             openModal: 'ConfirmationComponent'
         }
     }

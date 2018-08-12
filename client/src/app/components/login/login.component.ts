@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/
 import { UserApiService } from '../../services/api/user/user.api';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
-import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { modalTemplates } from '../../helpers/modal_templates';
 import { OpenModal } from '../../helpers/decorators/controllers.decorator';
 
 @Component({
@@ -43,5 +41,5 @@ export class LoginComponent implements OnInit {
     }
 
     @OpenModal()
-    public openModal(modalToOpen: string) { }
+    public openModal(modalToOpen: string, modalType? :string) { }
 }

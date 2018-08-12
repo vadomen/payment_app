@@ -41,7 +41,7 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
         this.modalInstance = M.Modal.getInstance(this.modal.nativeElement);
     }
 
-    private openModal(modalToOpen: string) {
+    private openModal(modalToOpen: string, modalType? :string) {
         this.activeModal = modalToOpen;
         this.modalInstance.open();
     }

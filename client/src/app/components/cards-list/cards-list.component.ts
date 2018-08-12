@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
-import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { CardApiService } from '../../services/api/card/card.api';
 import { InitProfile, OpenModal, SetLoading } from '../../helpers/decorators/controllers.decorator';
+import { ModalConfig } from '../../interfaces/modalConfig.interface';
 
 @Component({
     selector: 'cards-list',
@@ -13,12 +13,12 @@ import { InitProfile, OpenModal, SetLoading } from '../../helpers/decorators/con
 export class CardsListComponent implements OnInit {
     @Input('cards') public cards: any;
 
-    @OpenModal() public openModal(modalToOpen: string) {}
+    @OpenModal() public openModal(modalToOpen: string, modalType? :string) {}
     @InitProfile() private initProfile() {}
     @SetLoading('ProfileComponent') private setLoading(value: boolean) {}
 
     public cardsList: any[] = [];
-    public cardToDelete: string | null = null;
+    public selectedCard: any = null;
 
     constructor(private telegramService: TelegramService,
                 private paymentService: CardApiService) { }
@@ -27,7 +27,7 @@ export class CardsListComponent implements OnInit {
 
     }
 
-    public deleteCard(cardId) {
+    private deleteCard(cardId) {
         this.setLoading(true);
         this.paymentService.deleteCard(cardId).subscribe(() => {
             this.initProfile();
@@ -36,20 +36,39 @@ export class CardsListComponent implements OnInit {
         });
     }
 
+    private setDefaultCard(cardId) {
+        console.log(cardId);
+    }
+
     public trackByFn(index) {
         return index;
     }
     
-    private getModalConfig(): Telegram {
+    private getModalConfig(): ModalConfig {
         return {
-            ConfirmationComponent: {
-                payload : {
-                    modalData : {
-                        message : `Are you sure your want to delete the card ${this.cardToDelete}?`,
-                        callback: this.deleteCard.bind(this, this.cardToDelete)
-                    }
-                }
-            }
+            ConfirmationComponent: getConfirmationConfig
         }
+
+        function getConfirmationConfig () {
+            return {
+                deleteCard: {
+                    payload : {
+                        modalData : {
+                            message : `Delete the card ${this.selectedCard.brand} ${this.selectedCard.country} ****${this.selectedCard.last4}?`,
+                            callback: this.deleteCard.bind(this, this.selectedCard.id)
+                        }
+                    }
+                },
+                setDefaultCard: {
+                    payload: {
+                        modalData : {
+                            message : `Set the card ${this.selectedCard.brand} ${this.selectedCard.country} ****${this.selectedCard.last4} as default?`,
+                            callback: this.setDefaultCard.bind(this, this.selectedCard.id)
+                        }
+                    }
+                }    
+            }
+        };
     }
 }
+
