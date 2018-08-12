@@ -20,6 +20,14 @@ const deleteCard = (req, res) => {
         .catch(err => handleError(res, err));
 };
 
+const setDefaultCard = (req, res) => {
+    cardService.setDefaultCard({user: req._currentUser, cardId: req.body.cardId})
+        .then(() => {
+            res.json({message: `The card ${req.body.cardId} has been set as default.`, payload: {}});
+        })
+        .catch(err => handleError(res, err));
+}
+
 module.exports = {
     'addCard': {
         path: '/user/card/addcard',
@@ -32,5 +40,11 @@ module.exports = {
         handler: deleteCard,
         method: 'post',
         middlewares: ['authenticate']
-    }
+    },
+    'setDefaultCard': {
+        path: '/user/card/setdefault',
+        handler: setDefaultCard,
+        method: 'post',
+        middlewares: ['authenticate']
+    },
 };

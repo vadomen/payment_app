@@ -19,6 +19,17 @@ const Card = {
         } else {
             throw new Error('Unable to delete a card. Please try again later');
         }
+    },
+
+    async setDefaultCard (user, cardId) {
+        const confirmation = await stripe.customers.update(user.customerId, {
+            default_source : cardId
+        });
+        if (confirmation) {
+            return confirmation;
+        } else {
+            throw new Error('Unable to update a card. Please try again later');
+        }
     }
 };
 

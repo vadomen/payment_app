@@ -7,6 +7,10 @@ const CardService = {
     
     deleteCard ({user, cardId}) {
         return Card.deleteCard(user, cardId);
+    },
+
+    setDefaultCard ({user, cardId}) {
+        return Card.setDefaultCard(user, cardId);
     }
 }
 

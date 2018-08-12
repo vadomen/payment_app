@@ -46,6 +46,11 @@ export class CardApiService {
         return this.http.post(`${this.url}${CARD.DELETE_CARD}`, JSON.stringify({cardId}), { headers: this.headers });
     }
 
+    public setDefaultCard(cardId: any): Observable<any> {
+        return this.http.post(`${this.url}${CARD.SET_DEFAULT}`, JSON.stringify({cardId}), { headers: this.headers });
+    }
+
+
     private handleError({error}) {
         this.loggingService.sendMessage({type: 'ERROR', message: `Somothing went wront while creating a token.${error}`, url: this.stripeURL});
         return throwError(error.message);

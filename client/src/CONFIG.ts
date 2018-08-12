@@ -9,7 +9,8 @@ export default {
             },
             CARD: {
                 ADD_CARD: 'user/card/addcard',
-                DELETE_CARD: 'user/card/deletecard'
+                DELETE_CARD: 'user/card/deletecard',
+                SET_DEFAULT: 'user/card/setdefault'
             },
             SUBSCRIPTION: {
                 INIT: 'user/subscription/init',

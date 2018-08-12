@@ -37,7 +37,12 @@ export class CardsListComponent implements OnInit {
     }
 
     private setDefaultCard(cardId) {
-        console.log(cardId);
+        this.setLoading(true);
+        this.paymentService.setDefaultCard(cardId).subscribe(() => {
+            this.initProfile();
+        }, err => {
+            this.setLoading(false);
+        });
     }
 
     public trackByFn(index) {
