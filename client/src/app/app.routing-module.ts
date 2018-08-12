@@ -17,7 +17,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes)
     ],
     exports: [
-    RouterModule
+        RouterModule
     ],
     providers: [AuthGuard, AuthService]
 })

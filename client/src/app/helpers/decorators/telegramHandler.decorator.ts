@@ -14,7 +14,7 @@ export function TelegramHandler(): ClassDecorator {
                 .pipe(filter(filterReceiver.bind(this)))
                 .subscribe((telegram: Telegram) => {
                     this.telegramService.handleTelegram(this, telegram);
-                    this.cdr.detectChanges();
+                    this.cdr.markForCheck();
                 }, err => console.log(err));
         };
 

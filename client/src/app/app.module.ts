@@ -1,6 +1,3 @@
-// FONTAWESOME MODULE
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 // ANGULAR NATIVE MODULES
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,6 +9,7 @@ import { AppRoutingModule, routingComponents } from './app.routing-module';
 
 // CUSTOM MODULES
 import { ModalsModules } from './modals/modals.module';
+import { IconModule } from './icon.module';
 
 // INTERCEPTORS
 import { httpInterceptorProviders } from './services/interceptors';
@@ -23,6 +21,7 @@ import { CardsListComponent } from './components/cards-list/cards-list.component
 import { SubscriptionsListComponent } from './components/subscriptions-list/subscriptions-list.component';
 import { LoginComponent } from './components/login/login.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +32,7 @@ import { LoginComponent } from './components/login/login.component';
     routingComponents
   ],
   imports: [
-    FontAwesomeModule,
+    IconModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,

@@ -3,7 +3,7 @@
         <h5 class="center">{{modalHeader}}</h5> 
           <card-editor *ngIf="activeModal === 'CardEditorComponent'" [data]="modalData"></card-editor>
           <signup *ngIf="activeModal === 'SignupComponent'"></signup>
-		  <confirmation *ngIf="activeModal === 'ConfirmationComponent'"></confirmation>
+		  <confirmation *ngIf="activeModal === 'ConfirmationComponent'" [data]="modalData"></confirmation>
 	</div>
 	<div class="divider"></div>
 	<div class="modal-footer">

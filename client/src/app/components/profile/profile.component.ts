@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             .subscribe(({payload : profile}) => {
                 this.parseProfile(profile);
                 this.isLoading = false;
-                this.cdr.detectChanges();
+                this.cdr.markForCheck();
         }, () => {
             this.signOut();
         });

@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, AfterContentInit, DoCheck, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { CardApiService } from '../../services/api/payment/card.api';
+import { CardApiService } from '../../services/api/card/card.api';
+import { InitProfile, OpenModal } from '../../helpers/decorators/controllers.decorator';
 
 @Component({
     selector: 'cards-list',
@@ -12,8 +13,8 @@ import { CardApiService } from '../../services/api/payment/card.api';
 export class CardsListComponent implements OnInit {
     @Input('cards') public cards: any;
 
-    private defaultCard: string | null = null;
     public cardsList: any[] = [];
+    public cardToDelete: string | null = null;
 
     constructor(private telegramService: TelegramService,
                 private paymentService: CardApiService) { }
@@ -22,20 +23,11 @@ export class CardsListComponent implements OnInit {
 
     }
 
-    public openModal(modalToOpen: string) {
-        const telegram: Telegram = {
-            ModalWrapperComponent: {
-                payload: {
-                    modalHeader: 'Add a new card',
-                    successButton: 'Create a card',
-                    disableSuccessButton : true,
-                    modalData: { testProperty : 'TEST PROPERTY'},
-                    openModal: modalToOpen,
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
+    @OpenModal()
+    public openModal(modalToOpen: string) {}
+
+    @InitProfile()
+    private initProfile() { }
 
     public deleteCard(cardId) {
         this.setLoading(true);
@@ -46,7 +38,7 @@ export class CardsListComponent implements OnInit {
         });
     }
 
-    public trackByFn(index, item) {
+    public trackByFn(index) {
         return index;
     }
 
@@ -60,16 +52,17 @@ export class CardsListComponent implements OnInit {
         };
         this.telegramService.sendTelegram(telegram);
     }
-
-    private initProfile() {
-        const telegram: Telegram = {
-            ProfileComponent: {
-                payload: {
-                    initProfile: []
+    
+    private getModalConfig() {
+        return {
+            ConfirmationComponent: {
+                payload : {
+                    modalData : {
+                        message : `Are you sure your want to delete the card ${this.cardToDelete}?`,
+                        callback: this.deleteCard.bind(this, this.cardToDelete)
+                    }
                 }
             }
-        };
-
-        this.telegramService.sendTelegram(telegram);
+        }
     }
 }

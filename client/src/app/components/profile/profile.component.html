@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="profile-info">
-        <h5>Profile Info <button (click)="signOut()"class="right btn btn-flat blue darken-1">Sign out</button></h5>
+        <h5>Profile<button (click)="signOut()"class="right btn light-blue darken-3">Sign out<fa-icon class="right m-left-10" [icon]="['fas', 'sign-out-alt']"></fa-icon></button></h5>
         <ul class="collection">
             <li *ngFor="let prop of userInfo" class="collection-item">
                 <p><span class="badge">{{prop.key}}</span> {{prop.value}}</p>

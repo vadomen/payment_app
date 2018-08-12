@@ -1,4 +1,5 @@
 import { Telegram } from '../../interfaces/telegram.interface';
+import { modalTemplates } from '../modal_templates';
 
 function sendTelegram(telegram) {
     return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
@@ -31,15 +32,35 @@ export function InitProfile(): MethodDecorator  {
     return sendTelegram(telegram);
 }
 
+export function OpenModal(): MethodDecorator  {
+    return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.value = function(modalToOpen: string) {
+            const config = this.getModalConfig();
+            let modalTemplate = modalTemplates[modalToOpen];
+            if(config && config[modalToOpen]) {
+                const payload = Object.assign(modalTemplate.payload, config[modalToOpen].payload);
+                modalTemplate = { payload };
+            }
+            const telegram: Telegram = {
+                ModalWrapperComponent: modalTemplate
+            };
+            this.telegramService.sendTelegram(telegram);
+        };
+    };
+}
 
-// export function setLoading(value: boolean) {
-//     let telegram: Telegram = {
-//         ProfileComponent: {
-//             payload: {
-//                 isLoading: value
-//             }
-//         }
-//     };
-//     this.telegramService.sendTelegram(telegram);
-// }
+export function SetLoading() {
+    return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.value = function(value) {
+            const telegram: Telegram = {
+                ModalWrapperComponent: {
+                    payload: {
+                        isLoading: value,
+                    }
+                }
+            };
+            this.telegramService.sendTelegram(telegram);
+        };
+    };
+}
 

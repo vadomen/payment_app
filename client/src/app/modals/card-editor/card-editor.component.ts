@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild,
         ElementRef, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import { CardApiService } from '../../services/api/payment/card.api';
+import { CardApiService } from '../../services/api/card/card.api';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { Subscription } from 'rxjs';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
-import { CloseModal, InitProfile} from '../../helpers/decorators/controllers.decorator';
+import { CloseModal, InitProfile } from '../../helpers/decorators/controllers.decorator';
 
 @TelegramHandler()
 @Component({
@@ -46,7 +46,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             this.errorMessage = null;
         }
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
 
         const telegram: Telegram = {
             ModalWrapperComponent: {

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
+import { modalTemplates } from '../../helpers/modal_templates';
+import { OpenModal } from '../../helpers/decorators/controllers.decorator';
 
 @Component({
     selector: 'login',
@@ -40,18 +42,6 @@ export class LoginComponent implements OnInit {
                 err => console.log(err));
     }
 
-    public openModal(modalToOpen: string) {
-        const telegram: Telegram = {
-            ModalWrapperComponent: {
-                payload: {
-                    openModal: modalToOpen,
-                    modalHeader: 'Sign up',
-                    successButton: 'Sign up',
-                    disableSuccessButton : true
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
-
+    @OpenModal()
+    public openModal(modalToOpen: string) { }
 }

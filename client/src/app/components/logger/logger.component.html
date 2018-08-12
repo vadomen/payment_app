@@ -1,5 +1,5 @@
 <div class="logger">
-    <h5 class="center-align">Logger <button (click)="logs = []" class="right btn btn-flat orange lighten-4">Clear logs</button></h5>
+    <h5 class="center-align">Logger <button (click)="logs = []" class="right btn btn-flat red lighten-4"><fa-icon class="m-right-10" [icon]="['fas', 'eraser']"></fa-icon>Clear</button></h5>
     <div class="divider"></div>
     <ul class="collection">
         <li *ngFor="let log of logs" class="collection-item">

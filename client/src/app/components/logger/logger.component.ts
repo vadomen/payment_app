@@ -18,7 +18,7 @@ export class LoggerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.loggingService.receiveMessage().subscribe(log => {
                 this.logs.push(log);
-                this.cdr.detectChanges();
+                this.cdr.markForCheck();
         });
     }
 
