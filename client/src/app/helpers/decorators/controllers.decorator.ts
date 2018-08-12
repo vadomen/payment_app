@@ -35,7 +35,7 @@ export function InitProfile(): MethodDecorator  {
 export function OpenModal(): MethodDecorator  {
     return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
         descriptor.value = function(modalToOpen: string) {
-            const config = this.getModalConfig();
+            const config = this.getModalConfig ? this.getModalConfig() : null;
             let modalTemplate = modalTemplates[modalToOpen];
             if(config && config[modalToOpen]) {
                 const payload = Object.assign(modalTemplate.payload, config[modalToOpen].payload);
