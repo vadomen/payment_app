@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { take } from 'rxjs/operators';
+import { Telegram } from '../../interfaces/telegram.interface';
 
 @TelegramHandler()
 @Component({
@@ -52,9 +52,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     private parseProfile(profileObj) {
-        this.userSubscriptions = profileObj.subscriptions;
-        this.userCards = profileObj.sources;
         this.userInfo = profileObj.propsToDisplay;
+        this.userCards = profileObj.sources;
+        this.userSubscriptions = profileObj.subscriptions;
+        this.checkSubsciptions();
+    }
+
+    private checkSubsciptions() {
+        const telegram: Telegram = {
+            PlansListComponent: {
+                payload: {
+                    checkSubcription: [this.userSubscriptions]
+                }
+            }
+        };
+    
+        this.telegramService.sendTelegram(telegram);
     }
 
     public signOut() {

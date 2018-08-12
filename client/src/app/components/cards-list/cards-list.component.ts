@@ -44,10 +44,6 @@ export class CardsListComponent implements OnInit {
             this.setLoading(false);
         });
     }
-
-    public trackByFn(index) {
-        return index;
-    }
     
     private getModalConfig(): ModalConfig {
         return {
@@ -59,6 +55,8 @@ export class CardsListComponent implements OnInit {
             return {
                 deleteCard: {
                     payload : {
+                        modalHeader: 'Delete the card',
+                        successButton: 'Delete',
                         modalData : {
                             message : `Delete the card ${card}?`,
                             callback: this.deleteCard.bind(this, this.selectedCard.id)
@@ -67,6 +65,8 @@ export class CardsListComponent implements OnInit {
                 },
                 setDefaultCard: {
                     payload: {
+                        modalHeader: 'Set the default card',
+                        successButton: 'Set',
                         modalData : {
                             message : `Set the card ${card} as default?`,
                             callback: this.setDefaultCard.bind(this, this.selectedCard.id)
@@ -75,6 +75,10 @@ export class CardsListComponent implements OnInit {
                 }    
             }
         };
+    }
+
+    public trackByFn(index) {
+        return index;
     }
 }
 

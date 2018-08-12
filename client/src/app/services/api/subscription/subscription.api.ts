@@ -21,8 +21,8 @@ export class SubscriptionApiService {
         this.stripe = Stripe(PUBLISHABLE_KEY);
     }
 
-    public initSibscription(): Observable<any> {
-        return this.http.post(`${this.url}${SUBSCRIPTION.INIT}`, { headers: this.headers });
+    public initSibscription(planId): Observable<any> {
+        return this.http.post(`${this.url}${SUBSCRIPTION.INIT}`, JSON.stringify({planId}), { headers: this.headers });
     }
 
     public suspendSubscription(subscriptionId: string): Observable<any> {

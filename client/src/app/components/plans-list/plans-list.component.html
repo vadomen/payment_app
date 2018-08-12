@@ -1,0 +1,14 @@
+<h5>Plans</h5>
+<div class="wrapper">
+    <ul *ngIf="$plans" class="collection">
+        <li *ngFor="let plan of $plans | async; trackBy: trackByFn" class="collection-item row">
+            <div class="col s4">{{plan.nickname}}</div> 
+            <div class="col s4 right-align blue-text">{{plan.amount}} {{plan.currency}}/{{plan.interval}}</div>
+            <button *ngIf="!subscribedPlans[plan.id]" class="btn btn-small right" (click)="subscribedPlans[plan.id] = true; initSubscription(plan.id)">Subscribe</button>
+            <span *ngIf="subscribedPlans[plan.id]" class="orange-text right">Subscribed</span>
+        </li>
+    </ul>
+    <div *ngIf="!$plans" class="empty-cnt">
+        <h5 class="center">NO PLANS TO SUBSCRIBE</h5>
+    </div>
+</div>

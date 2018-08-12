@@ -4,9 +4,9 @@ import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Subscription } from 'rxjs';
 import { UserApiService } from '../../services/api/user/user.api';
-import { skipWhile } from 'rxjs/operators';
+import { skipWhile, map, distinctUntilChanged } from 'rxjs/operators';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
-import { SetLoading } from '../../helpers/decorators/controllers.decorator';
+import { SetLoading, CloseModal } from '../../helpers/decorators/controllers.decorator';
 
 @TelegramHandler()
 @Component({
@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('signupForm') private signupForm: NgForm;
     
     @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
+    @CloseModal() private closeModal() { }
 
     private formSubscription: Subscription;
     private telegramSubscription: Subscription;
@@ -33,12 +34,16 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this.formSubscription = this.signupForm.valueChanges
-            .pipe(skipWhile(values => Object.values(values).length < 3))
-            .subscribe(values => {
+            .pipe(
+                skipWhile(values => Object.values(values).length < 3), 
+                map(() => this.signupForm.valid),
+                distinctUntilChanged()
+            )
+            .subscribe((isValid) => {
                 const telegram: Telegram = {
                     ModalWrapperComponent: {
                         payload: {
-                            disableSuccessButton : !this.signupForm.valid
+                            disableSuccessButton : !isValid
                         }
                     }
                 };
@@ -53,21 +58,8 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
             err => this.closeModal());
     }
 
-    private closeModal() {
-        const telegram: Telegram = {
-            ModalWrapperComponent: {
-                payload: {
-                    isLoading: false,
-                    closeModal: []
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
-
     ngOnDestroy() {
         this.formSubscription.unsubscribe();
         this.formSubscription = null;
     }
-
 }

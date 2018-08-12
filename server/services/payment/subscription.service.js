@@ -1,8 +1,8 @@
 const { Subscription } = require('./wrappers/payment.wrapper');
 
 const SubscriptionService = {
-    initSubscription ({_currentUser: user}) {
-        return Subscription.initSubscription(user);
+    initSubscription ({user, planId}) {
+        return Subscription.initSubscription(user, planId);
     },
 
     suspendSubscription ({subscriptionId}) {

@@ -20,6 +20,7 @@ import { LoggerComponent } from './components/logger/logger.component';
 import { CardsListComponent } from './components/cards-list/cards-list.component';
 import { SubscriptionsListComponent } from './components/subscriptions-list/subscriptions-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { PlansListComponent } from './components/plans-list/plans-list.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { LoginComponent } from './components/login/login.component';
     LoginComponent,
     CardsListComponent,
     SubscriptionsListComponent,
+    PlansListComponent,
     routingComponents
   ],
   imports: [

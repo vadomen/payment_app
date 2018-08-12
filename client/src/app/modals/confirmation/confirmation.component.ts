@@ -15,6 +15,8 @@ import { CloseModal } from '../../helpers/decorators/controllers.decorator';
 export class ConfirmationComponent implements OnInit, OnDestroy {
     @Input('data') public data: any;
 
+    @CloseModal() private closeModal() { }
+
     constructor(
         private telegramService: TelegramService,
         private cdr: ChangeDetectorRef
@@ -26,9 +28,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
         this.closeModal();
         this.data.callback();
     }
-
-    @CloseModal()
-    private closeModal() { }
 
     ngOnDestroy() {
 

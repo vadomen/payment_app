@@ -1,4 +1,4 @@
-<h5>Cards</h5>
+<h5>Your cards</h5>
 <button class="btn green lighten-1" (click)="openModal('CardEditorComponent')">Add<fa-icon class="m-left-10" [icon]="['fas', 'plus']"></fa-icon></button>
 <ul *ngIf="cards.data?.length !== 0" class="collection">
     <li *ngFor="let card of cards?.data; trackBy: trackByFn" class="collection-item row">
@@ -8,7 +8,7 @@
         <div class="col s8"> 
             <span class="m-right-10">{{card.country}}</span> <span>****{{card.last4}}</span>
             <span class="orange-text right" *ngIf="card.id === cards.default_source">Default</span>
-            <button class="btn btn-small right" *ngIf="card.id !== cards.default_source" (click)="selectedCard = card; openModal('ConfirmationComponent', 'setDefaultCard')">Make default</button>
+            <button class="btn btn-small right" *ngIf="card.id !== cards.default_source" (click)="selectedCard = card; openModal('ConfirmationComponent', 'setDefaultCard')">Set as default</button>
         </div>
         <div class="col s2 right-align">
             <fa-icon class="fa-trash" [icon]="['fas', 'trash']" (click)="selectedCard = card; openModal('ConfirmationComponent', 'deleteCard')"></fa-icon>

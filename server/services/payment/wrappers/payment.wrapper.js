@@ -1,7 +1,5 @@
 const config = require('../../../config');
 const stripe = require('stripe')(config.stripe.secretKey);
-const planId = config.stripe.planId;
-
 
 const Card = {
     async addCard (user, token) {
@@ -12,6 +10,7 @@ const Card = {
             throw new Error('Unable to add a new card. Plase try again later');
         }
     },
+
     async deleteCard (user, cardId) {
         const confirmation = await stripe.customers.deleteCard(user.customerId, cardId);
         if (confirmation) {
@@ -38,6 +37,7 @@ const Customer = {
     async createCustomer (email) {
         return stripe.customers.create({email});
     },
+
     async getCustomerById (id) {
         return stripe.customers.retrieve(id);
     }
@@ -45,7 +45,7 @@ const Customer = {
 
 
 const Subscription = {
-    async initSubscription (user) {
+    async initSubscription (user, planId) {
         const subscription = await stripe.subscriptions.create({
             customer: user.customerId,
             items: [
@@ -60,6 +60,7 @@ const Subscription = {
             throw new Error('Unable to initiate a subscription.');
         }
     },
+
     async suspendSubscription (subscriptionId) {
         const confirmation = await stripe.subscriptions.del(subscriptionId);
         if (confirmation) {
@@ -70,8 +71,20 @@ const Subscription = {
     }
 };
 
+const Plan = {
+    async getAllPlans () {
+        const plans = await stripe.plans.list();
+        if (plans) {
+            return plans;
+        } else {
+            throw new Error('Unable to retreive plans.');
+        }
+    }
+}
+
 module.exports = {
     Card,
     Customer,
-    Subscription
+    Subscription,
+    Plan
 }

@@ -15,6 +15,9 @@ export default {
             SUBSCRIPTION: {
                 INIT: 'user/subscription/init',
                 SUSPEND: 'user/subscription/suspend',
+            },
+            PLAN: {
+                GET_ALL: 'plan/getall'
             }
         },
         STRIPE : {

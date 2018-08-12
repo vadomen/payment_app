@@ -1,9 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { SubscriptionApiService } from '../../services/api/subscription/subscription.api';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { Telegram } from '../../interfaces/telegram.interface';
-import { CardsListComponent } from '../cards-list/cards-list.component';
-import { SetLoading } from '../../helpers/decorators/controllers.decorator';
+import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.decorator';
 
 @Component({
     selector: 'subscriptions-list',
@@ -16,40 +14,21 @@ export class SubscriptionsListComponent implements OnInit {
     @Input('subscriptions') public subscriptions: any;
 
     @SetLoading('ProfileComponent') private setLoading(value: boolean) { }
+    @InitProfile() private initProfile() {}
 
     constructor(private subscriptionService: SubscriptionApiService,
                 private telegramService: TelegramService) { }
 
-    ngOnInit() {
+    ngOnInit() { }
+
+    public suspendSubscription(subId: string) {
+        this.setLoading(true);
+        this.subscriptionService.suspendSubscription((subId)).subscribe(
+            () => this.initProfile(),
+            err => this.setLoading(false));
     }
 
-    public trackByFn(index, item) {
+    public trackByFn(index) {
         return index;
-    }
-
-    public initSubscription() {
-        this.setLoading(true);
-        this.subscriptionService.initSibscription().subscribe(
-            () => this.initProfile(),
-            err => this.setLoading(false));
-    }
-
-    public suspendSubscription() {
-        this.setLoading(true);
-        this.subscriptionService.suspendSubscription((this.subscriptions.data[0].id)).subscribe(
-            () => this.initProfile(),
-            err => this.setLoading(false));
-    }
-
-    private initProfile() {
-        const telegram: Telegram = {
-            ProfileComponent: {
-                payload: {
-                    initProfile: []
-                }
-            }
-        };
-
-        this.telegramService.sendTelegram(telegram);
     }
 }
