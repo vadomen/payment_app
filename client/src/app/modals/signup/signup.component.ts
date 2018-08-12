@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { UserApiService } from '../../services/api/user/user.api';
 import { skipWhile } from 'rxjs/operators';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
+import { SetLoading } from '../../helpers/decorators/controllers.decorator';
 
 @TelegramHandler()
 @Component({
@@ -17,6 +18,8 @@ import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decora
 export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild('signupForm') private signupForm: NgForm;
+    
+    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
 
     private formSubscription: Subscription;
     private telegramSubscription: Subscription;
@@ -48,17 +51,6 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userService.signUpUser(this.signupForm.value).subscribe(
             () => this.closeModal(),
             err => this.closeModal());
-    }
-
-    private setLoading(value: boolean) {
-        const telegram: Telegram = {
-            ModalWrapperComponent: {
-                payload: {
-                    isLoading: value,
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
     }
 
     private closeModal() {

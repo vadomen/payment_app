@@ -5,7 +5,7 @@ import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
 import { Subscription } from 'rxjs';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
-import { CloseModal, InitProfile } from '../../helpers/decorators/controllers.decorator';
+import { CloseModal, InitProfile, SetLoading } from '../../helpers/decorators/controllers.decorator';
 
 @TelegramHandler()
 @Component({
@@ -17,6 +17,10 @@ import { CloseModal, InitProfile } from '../../helpers/decorators/controllers.de
 export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
     @Input('data') private data: any;
+
+    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
+    @InitProfile() private initProfile() { }
+    @CloseModal() private closeModal() { }
 
     private telegramSubscription: Subscription;
 
@@ -34,7 +38,6 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {}
 
     ngAfterViewInit() {
-        console.log(this.data);
         this.card = this.elements.create('card');
         this.card.addEventListener('change', this.cardHandler);
         this.card.mount(this.cardContainer.nativeElement);
@@ -69,23 +72,6 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.closeModal();
             });
     }
-
-    private setLoading(value: boolean) {
-        const telegram: Telegram = {
-            ModalWrapperComponent: {
-                payload: {
-                    isLoading: value,
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
-    }
-
-    @InitProfile()
-    private initProfile() { }
-
-    @CloseModal()
-    private closeModal() { }
 
     ngOnDestroy() {
         this.card.removeEventListener('change', this.cardHandler);

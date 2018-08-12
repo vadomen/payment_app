@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit } from
 import { Telegram } from '../../interfaces/telegram.interface';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { CardApiService } from '../../services/api/card/card.api';
-import { InitProfile, OpenModal } from '../../helpers/decorators/controllers.decorator';
+import { InitProfile, OpenModal, SetLoading } from '../../helpers/decorators/controllers.decorator';
 
 @Component({
     selector: 'cards-list',
@@ -13,6 +13,10 @@ import { InitProfile, OpenModal } from '../../helpers/decorators/controllers.dec
 export class CardsListComponent implements OnInit {
     @Input('cards') public cards: any;
 
+    @OpenModal() public openModal(modalToOpen: string) {}
+    @InitProfile() private initProfile() {}
+    @SetLoading('ProfileComponent') private setLoading(value: boolean) {}
+
     public cardsList: any[] = [];
     public cardToDelete: string | null = null;
 
@@ -22,12 +26,6 @@ export class CardsListComponent implements OnInit {
     ngOnInit() {
 
     }
-
-    @OpenModal()
-    public openModal(modalToOpen: string) {}
-
-    @InitProfile()
-    private initProfile() { }
 
     public deleteCard(cardId) {
         this.setLoading(true);
@@ -40,17 +38,6 @@ export class CardsListComponent implements OnInit {
 
     public trackByFn(index) {
         return index;
-    }
-
-    private setLoading(value: boolean) {
-        const telegram: Telegram = {
-            ProfileComponent: {
-                payload: {
-                    isLoading: value
-                }
-            }
-        };
-        this.telegramService.sendTelegram(telegram);
     }
     
     private getModalConfig() {

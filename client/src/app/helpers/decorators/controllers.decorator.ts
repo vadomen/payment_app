@@ -49,11 +49,11 @@ export function OpenModal(): MethodDecorator  {
     };
 }
 
-export function SetLoading() {
+export function SetLoading(component: string) {
     return function(target: Object, propertyKey: string, descriptor: PropertyDescriptor) {
         descriptor.value = function(value) {
             const telegram: Telegram = {
-                ModalWrapperComponent: {
+                [component]: {
                     payload: {
                         isLoading: value,
                     }
