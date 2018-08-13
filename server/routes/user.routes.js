@@ -14,8 +14,8 @@ const signUpUser = (req, res) => {
 
 const signInUser = (req, res) => {
     userService.signInUser(req.body)
-        .then(user => {
-            res.json({message: `The user ${user.id} signed in.`, payload: {}});
+        .then(data => {
+            res.json({message: `The user ${data.id} signed in.`, payload: data});
         })
         .catch(err => handleError(res, err));
 };

@@ -13,7 +13,7 @@ import { OpenModal } from '../../helpers/decorators/controllers.decorator';
 })
 export class LoginComponent implements OnInit {
 
-    @OpenModal() public openModal(modalToOpen: string, modalType? :string) { }
+    @OpenModal() public openModal(modalToOpen: string, modalType?: string) { }
 
     constructor(private userService: UserApiService,
                 private authService: AuthService,
