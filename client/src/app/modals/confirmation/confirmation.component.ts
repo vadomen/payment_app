@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, 
+import { Component, OnInit, ChangeDetectionStrategy, Input,
         ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { TelegramService } from '../../services/communication/telegram.service';
@@ -32,5 +32,4 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
 
     }
-
 }

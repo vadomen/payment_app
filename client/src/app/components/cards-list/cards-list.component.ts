@@ -13,38 +13,35 @@ import { forkJoin } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsListComponent implements OnInit {
-    @Input('cards') public cards: any;
     @Input('subscriptionIds') private subscriptionIds: string[];
-
-    @OpenModal() public openModal(modalToOpen: string, modalType? :string) {}
-    @InitProfile() private initProfile() {}
-    @SetLoading('ProfileComponent') private setLoading(value: boolean) {}
+    private observer = {
+        next: () => this.initProfile(),
+        error: () => this.setLoading(false)
+    };
+    @Input('cards') public cards: any;
 
     public selectedCard: any = null;
 
-    constructor(private telegramService: TelegramService,
-                private cardService: CardApiService,
-                private subscriptionService: SubscriptionApiService) { }
+    @OpenModal() public openModal(modalToOpen: string, modalType?: string) {}
+    @InitProfile() private initProfile() {}
+    @SetLoading('ProfileComponent') private setLoading(value: boolean) {}
 
-    ngOnInit() {
+    constructor(
+            private telegramService: TelegramService,
+            private cardService: CardApiService,
+            private subscriptionService: SubscriptionApiService
+        ) { }
 
-    }
+    ngOnInit() {}
 
     private deleteCard(cardId) {
         this.setLoading(true);
-        this.cardService.deleteCard(cardId).subscribe(() => {
-            this.initProfile();
-        }, err => {
-            this.setLoading(false);
-        });
+        this.cardService.deleteCard(cardId).subscribe(this.observer);
     }
 
     private setDefaultCard(cardId) {
         this.setLoading(true);
-        this.cardService.setDefaultCard(cardId).subscribe(
-            () => this.initProfile(),
-            () => this.setLoading(false)
-        );
+        this.cardService.setDefaultCard(cardId).subscribe(this.observer);
     }
 
     private delLastCardAndSuspendAllSubs() {
@@ -53,10 +50,7 @@ export class CardsListComponent implements OnInit {
             forkJoin(
                 this.cardService.deleteCard(this.selectedCard.id),
                 this.subscriptionService.suspendSubscription(this.subscriptionIds)
-            ).subscribe(
-                () => this.initProfile(),
-                () => this.setLoading(false)
-            );
+            ).subscribe(this.observer);
 
         } else {
             this.deleteCard(this.selectedCard.id);

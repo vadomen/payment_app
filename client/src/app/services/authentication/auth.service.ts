@@ -10,7 +10,7 @@ export class AuthService {
         localStorage.setItem('token', token);
     }
 
-    public getUserId(): string{
+    public getUserId(): string {
         return localStorage.getItem('userId');
     }
 

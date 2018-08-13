@@ -10,8 +10,8 @@ import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.de
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SubscriptionsListComponent implements OnInit {
-    @Input('subscriptions') public subscriptions: any;
     @Input('subscriptionIds') private subscriptionIds: string[];
+    @Input('subscriptions') public subscriptions: any;
 
     @SetLoading('ProfileComponent') private setLoading(value: boolean) { }
     @InitProfile() private initProfile() {}

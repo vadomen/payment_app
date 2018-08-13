@@ -17,7 +17,7 @@ export class SubscriptionApiService {
           'Content-Type':  'application/json'
         });
 
-    constructor(private loggingService: LoggingService, private http: HttpClient) { 
+    constructor(private loggingService: LoggingService, private http: HttpClient) {
         this.stripe = Stripe(PUBLISHABLE_KEY);
     }
 

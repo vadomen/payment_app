@@ -18,16 +18,16 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
     @Input('data') private data: any;
 
-    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
-    @InitProfile() private initProfile() { }
-    @CloseModal() private closeModal() { }
-
     private telegramSubscription: Subscription;
 
     private elements: any;
     private card: any;
     private cardHandler = this.onChange.bind(this);
     public errorMessage: string | null = null;
+
+    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
+    @InitProfile() private initProfile() { }
+    @CloseModal() private closeModal() { }
 
     constructor(private cardService: CardApiService,
                 private cdr: ChangeDetectorRef,
@@ -43,7 +43,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.card.mount(this.cardContainer.nativeElement);
     }
 
-    onChange({ error, complete }) {
+    private onChange({ error, complete }) {
         if (error) {
             this.errorMessage = error.message;
         } else {
@@ -60,7 +60,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         };
 
         this.telegramService.sendTelegram(telegram);
-      }
+    }
 
     private onSubmit() {
         this.setLoading(true);

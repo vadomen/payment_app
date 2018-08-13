@@ -18,12 +18,12 @@ import { SetLoading, CloseModal } from '../../helpers/decorators/controllers.dec
 export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild('signupForm') private signupForm: NgForm;
-    
-    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
-    @CloseModal() private closeModal() { }
 
     private formSubscription: Subscription;
     private telegramSubscription: Subscription;
+
+    @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
+    @CloseModal() private closeModal() { }
 
     constructor(private telegramService: TelegramService,
                 private cdr: ChangeDetectorRef,
@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit() {
         this.formSubscription = this.signupForm.valueChanges
             .pipe(
-                skipWhile(values => Object.values(values).length < 3), 
+                skipWhile(values => Object.values(values).length < 3),
                 map(() => this.signupForm.valid),
                 distinctUntilChanged()
             )

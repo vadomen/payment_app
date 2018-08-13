@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { PlanApiService } from '../../services/api/plan/plan.api.service';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { SubscriptionApiService } from '../../services/api/subscription/subscription.api';
 import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.decorator';
@@ -15,10 +15,6 @@ import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decora
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlansListComponent implements OnInit, OnDestroy {
-
-    @SetLoading('ProfileComponent') private setLoading(value: boolean) { }
-    @InitProfile() private initProfile() {}
-
     private telegramSubscription: Subscription;
 
     public subscribedPlans: {} = {};
@@ -27,6 +23,9 @@ export class PlansListComponent implements OnInit, OnDestroy {
     public hasActiveCard: boolean = false;
 
     public $plans: Observable<Array<any>> | null = null;
+
+    @SetLoading('ProfileComponent') private setLoading(value: boolean) { }
+    @InitProfile() private initProfile() {}
 
     constructor(
                 private planService: PlanApiService,
@@ -52,7 +51,7 @@ export class PlansListComponent implements OnInit, OnDestroy {
         this.setLoading(true);
         this.subscriptionService.initSibscription(planId).subscribe(
             () => this.initProfile(),
-            err => this.setLoading(false));
+            () => this.setLoading(false));
     }
 
     public trackByFn(index) {

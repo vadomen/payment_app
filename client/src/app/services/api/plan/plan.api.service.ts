@@ -15,5 +15,4 @@ export class PlanApiService {
     public getAllPlans(): Observable<any> {
         return this.http.get(`${this.url}${PLAN.GET_ALL}`);
     }
-
 }

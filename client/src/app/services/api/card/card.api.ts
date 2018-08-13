@@ -52,7 +52,8 @@ export class CardApiService {
 
 
     private handleError({error}) {
-        this.loggingService.sendMessage({type: 'ERROR', message: `Somothing went wront while creating a token.${error}`, url: this.stripeURL});
+        this.loggingService
+            .sendMessage({type: 'ERROR', message: `Somothing went wront while creating a token.${error}`, url: this.stripeURL});
         return throwError(error.message);
     }
 
