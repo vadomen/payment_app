@@ -3,7 +3,6 @@ import { environment } from '../../../../environments/environment';
 import { LoggingService } from '../../logging/logging.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-const PUBLISHABLE_KEY = environment.STRIPE.PUBLISHABLE_KEY;
 const { BASE_URL, SUBSCRIPTION } = environment.API;
 
 @Injectable({
@@ -11,15 +10,12 @@ const { BASE_URL, SUBSCRIPTION } = environment.API;
 })
 export class SubscriptionApiService {
 
-    private stripe: any;
     private url: string = BASE_URL;
     private headers: HttpHeaders = new HttpHeaders({
           'Content-Type':  'application/json'
         });
 
-    constructor(private loggingService: LoggingService, private http: HttpClient) {
-        this.stripe = Stripe(PUBLISHABLE_KEY);
-    }
+    constructor(private loggingService: LoggingService, private http: HttpClient) {}
 
     public initSibscription(planId: string): Observable<any> {
         return this.http.post(`${this.url}${SUBSCRIPTION.INIT}`, JSON.stringify({planId}), { headers: this.headers });
