@@ -20,9 +20,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private profileSubscription: Subscription;
     private telegramSubscription: Subscription;
 
-    public userInfo: any[] = [];
-    public userCards: any[] = [];
-    public userSubscriptions: any[] = [];
+    public userInfo: any = [];
+    public userCards: any = [];
+    public userSubscriptions: any = [];
+    public subscriptionIds: string[] = [];
 
     public isLoading: boolean = false;
 
@@ -55,6 +56,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userInfo = profileObj.propsToDisplay;
         this.userCards = profileObj.sources;
         this.userSubscriptions = profileObj.subscriptions;
+        this.subscriptionIds = this.userSubscriptions.data.map(sub => sub.id);
         this.checkSubsciptions();
     }
 
@@ -62,11 +64,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const telegram: Telegram = {
             PlansListComponent: {
                 payload: {
-                    checkSubcription: [this.userSubscriptions]
+                    checkSubcriptions: [this.userSubscriptions],
+                    hasActiveCard: this.userCards.data.length > 0
                 }
             }
         };
-    
         this.telegramService.sendTelegram(telegram);
     }
 

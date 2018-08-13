@@ -64,6 +64,6 @@ const UserService = {
             .select(`username email customerId ${inclPassword ? 'password' : ''}`)
             .exec();
     }
-}
+};
 
 module.exports = UserService;

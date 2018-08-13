@@ -29,10 +29,10 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private cardHandler = this.onChange.bind(this);
     public errorMessage: string | null = null;
 
-    constructor(private paymentService: CardApiService,
+    constructor(private cardService: CardApiService,
                 private cdr: ChangeDetectorRef,
                 private telegramService: TelegramService) {
-        this.elements = this.paymentService.initStripeElements();
+        this.elements = this.cardService.initStripeElements();
     }
 
     ngOnInit() {}
@@ -64,7 +64,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private onSubmit() {
         this.setLoading(true);
-        this.paymentService.addCard(this.card).subscribe(
+        this.cardService.addCard(this.card).subscribe(
             () => {
                 this.initProfile();
                 this.closeModal();

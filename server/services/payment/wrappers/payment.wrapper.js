@@ -22,7 +22,7 @@ const Card = {
 
     async setDefaultCard (user, cardId) {
         const confirmation = await stripe.customers.update(user.customerId, {
-            default_source : cardId
+            default_source: cardId
         });
         if (confirmation) {
             return confirmation;
@@ -31,7 +31,6 @@ const Card = {
         }
     }
 };
-
 
 const Customer = {
     async createCustomer (email) {
@@ -42,7 +41,6 @@ const Customer = {
         return stripe.customers.retrieve(id);
     }
 };
-
 
 const Subscription = {
     async initSubscription (user, planId) {
@@ -62,11 +60,18 @@ const Subscription = {
     },
 
     async suspendSubscription (subscriptionId) {
-        const confirmation = await stripe.subscriptions.del(subscriptionId);
+        let confirmation;
+        if (Array.isArray(subscriptionId)) {
+            const promiseList = subscriptionId.map(id => stripe.subscriptions.del(id));
+            confirmation = await Promise.all(promiseList);
+        } else {
+            confirmation = await stripe.subscriptions.del(subscriptionId);
+        }
+
         if (confirmation) {
             return confirmation;
         } else {
-            throw new Error('Unable to suspend. Plase try again later');
+            throw new Error('Unable to suspend a subscription. Plase try again later');
         }
     }
 };
@@ -80,11 +85,11 @@ const Plan = {
             throw new Error('Unable to retreive plans.');
         }
     }
-}
+};
 
 module.exports = {
     Card,
     Customer,
     Subscription,
     Plan
-}
+};

@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { CardApiService } from './card.api';
 
-describe('PaymentService', () => {
+describe('cardService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CardApiService]

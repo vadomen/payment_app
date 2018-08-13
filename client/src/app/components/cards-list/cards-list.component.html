@@ -11,7 +11,7 @@
             <button class="btn btn-small right" *ngIf="card.id !== cards.default_source" (click)="selectedCard = card; openModal('ConfirmationComponent', 'setDefaultCard')">Set as default</button>
         </div>
         <div class="col s2 right-align">
-            <fa-icon class="fa-trash" [icon]="['fas', 'trash']" (click)="selectedCard = card; openModal('ConfirmationComponent', 'deleteCard')"></fa-icon>
+            <fa-icon class="fa-trash" [icon]="['fas', 'trash']" (click)="selectedCard = card; cards.data.length === 1 ? openModal('ConfirmationComponent', 'deleteLastCard') : openModal('ConfirmationComponent', 'deleteCard')"></fa-icon>
         </div>
     </li>
 </ul>

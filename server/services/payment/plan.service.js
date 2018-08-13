@@ -4,6 +4,6 @@ const PlanService = {
     getAllPlans () {
         return Plan.getAllPlans();
     }
-}
+};
 
 module.exports = PlanService;

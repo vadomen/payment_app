@@ -8,6 +8,6 @@ const SubscriptionService = {
     suspendSubscription ({subscriptionId}) {
         return Subscription.suspendSubscription(subscriptionId);
     }
-}
+};
 
 module.exports = SubscriptionService;

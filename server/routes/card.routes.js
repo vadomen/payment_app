@@ -7,7 +7,7 @@ const handleError = (res, {message}) => {
 const addCard = (req, res) => {
     cardService.addCard(req)
         .then(card => {
-            res.json({message: `A new card ${card.id} has been added.`, payload: card});
+            res.json({message: `A new card ${card.id} has been added.`, payload: {}});
         })
         .catch(err => handleError(res, err));
 };
@@ -15,7 +15,7 @@ const addCard = (req, res) => {
 const deleteCard = (req, res) => {
     cardService.deleteCard({user: req._currentUser, cardId: req.body.cardId})
         .then(confirmation => {
-            res.json({message: `The card ${confirmation.id} has been deleted.`, payload: confirmation});
+            res.json({message: `The card ${confirmation.id} has been deleted.`, payload: {}});
         })
         .catch(err => handleError(res, err));
 };
@@ -26,7 +26,7 @@ const setDefaultCard = (req, res) => {
             res.json({message: `The card ${req.body.cardId} has been set as default.`, payload: {}});
         })
         .catch(err => handleError(res, err));
-}
+};
 
 module.exports = {
     'addCard': {
@@ -46,5 +46,5 @@ module.exports = {
         handler: setDefaultCard,
         method: 'post',
         middlewares: ['authenticate']
-    },
+    }
 };

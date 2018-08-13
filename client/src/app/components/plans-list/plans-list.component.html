@@ -4,8 +4,22 @@
         <li *ngFor="let plan of $plans | async; trackBy: trackByFn" class="collection-item row">
             <div class="col s4">{{plan.nickname}}</div> 
             <div class="col s4 right-align blue-text">{{plan.amount}} {{plan.currency}}/{{plan.interval}}</div>
-            <button *ngIf="!subscribedPlans[plan.id]" class="btn btn-small right" (click)="subscribedPlans[plan.id] = true; initSubscription(plan.id)">Subscribe</button>
-            <span *ngIf="subscribedPlans[plan.id]" class="orange-text right">Subscribed</span>
+            <div class="col s4">
+                <button *ngIf="hasActiveCard && !loadingPlans[plan.id] && !subscribedPlans[plan.id]" class="btn btn-small right" (click)="loadingPlans[plan.id] = true; initSubscription(plan.id)">Subscribe</button>
+                <span *ngIf="!loadingPlans[plan.id] && subscribedPlans[plan.id]" class="orange-text right">Subscribed</span>
+                <span *ngIf="!hasActiveCard" class="red-text right">No active card</span>
+                <div *ngIf="loadingPlans[plan.id] && !subscribedPlans[plan.id]" class="preloader-wrapper small active right">
+                    <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </li>
     </ul>
     <div *ngIf="!$plans" class="empty-cnt">

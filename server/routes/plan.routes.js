@@ -12,7 +12,6 @@ const getAllPlans = (req, res) => {
         .catch(err => handleError(res, err));
 };
 
-
 module.exports = {
     'getAllPlans': {
         path: '/plan/getall',

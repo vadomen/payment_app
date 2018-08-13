@@ -1,7 +1,7 @@
-import { Telegram } from "./telegram.interface";
+import { Telegram } from './telegram.interface';
 
 export interface ModalConfig {
-    [propName: string]: ModalConfingUnitCostructor
+    [propName: string]: ModalConfingUnitCostructor;
 }
 
 interface ModalConfingUnitCostructor {

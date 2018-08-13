@@ -8,6 +8,6 @@ const CustomerService = {
     getCustomerById (id) {
         return Customer.getCustomerById(id);
     }
-}
+};
 
 module.exports = CustomerService;

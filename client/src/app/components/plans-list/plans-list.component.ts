@@ -20,8 +20,14 @@ export class PlansListComponent implements OnInit, OnDestroy {
     @InitProfile() private initProfile() {}
 
     private telegramSubscription: Subscription;
+
     public subscribedPlans: {} = {};
-    
+    public loadingPlans: {} = {};
+    public isLoading: boolean = false;
+    public hasActiveCard: boolean = false;
+
+    public $plans: Observable<Array<any>> | null = null;
+
     constructor(
                 private planService: PlanApiService,
                 private subscriptionService: SubscriptionApiService,
@@ -29,15 +35,17 @@ export class PlansListComponent implements OnInit, OnDestroy {
                 private cdr: ChangeDetectorRef
             ) { }
 
-    public $plans: Observable<Array<any>> | null = null;
-
     ngOnInit() {
         this.$plans = this.planService.getAllPlans().pipe(map(res => res.payload.data));
     }
 
-    private checkSubcription(subscriptions: any) {
+    private checkSubcriptions(subscriptions: any) {
         this.subscribedPlans = subscriptions.data
-            .reduce((acc, sub) => { acc[sub.plan.id] = true; return acc } , {});
+            .reduce((acc, sub) => {
+                acc[sub.plan.id] = true;
+                delete this.loadingPlans[sub.plan.id];
+                return acc;
+            } , {});
     }
 
     public initSubscription(planId: string) {
@@ -51,7 +59,5 @@ export class PlansListComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    ngOnDestroy() {
-        
-    }
+    ngOnDestroy() {  }
 }

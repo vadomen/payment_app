@@ -7,7 +7,7 @@ const handleError = (res, {message}) => {
 const signUpUser = (req, res) => {
     userService.signUpUser(req.body)
         .then((user) => {
-            res.json({message: `A new user ${user._id} has been successfully created.`, payload: user});
+            res.json({message: `A new user ${user._id} has been successfully created.`, payload: {}});
         })
         .catch(err => handleError(res, err));
 };
@@ -15,7 +15,7 @@ const signUpUser = (req, res) => {
 const signInUser = (req, res) => {
     userService.signInUser(req.body)
         .then(user => {
-            res.json({message: `The user ${user.id} signed in.`, payload: user});
+            res.json({message: `The user ${user.id} signed in.`, payload: {}});
         })
         .catch(err => handleError(res, err));
 };

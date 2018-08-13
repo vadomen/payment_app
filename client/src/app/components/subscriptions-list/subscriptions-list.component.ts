@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { SubscriptionApiService } from '../../services/api/subscription/subscription.api';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.decorator';
@@ -10,8 +10,8 @@ import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.de
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SubscriptionsListComponent implements OnInit {
-
     @Input('subscriptions') public subscriptions: any;
+    @Input('subscriptionIds') private subscriptionIds: string[];
 
     @SetLoading('ProfileComponent') private setLoading(value: boolean) { }
     @InitProfile() private initProfile() {}
@@ -21,11 +21,12 @@ export class SubscriptionsListComponent implements OnInit {
 
     ngOnInit() { }
 
-    public suspendSubscription(subId: string) {
+    public suspendSubscription(subId: string | string[]) {
         this.setLoading(true);
-        this.subscriptionService.suspendSubscription((subId)).subscribe(
-            () => this.initProfile(),
-            err => this.setLoading(false));
+        this.subscriptionService.suspendSubscription(subId).subscribe(
+                () => this.initProfile(),
+                () => this.setLoading(false)
+            );
     }
 
     public trackByFn(index) {

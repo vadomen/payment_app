@@ -1,18 +1,20 @@
 <div class="wrapper">
-    <div class="profile-info">
-        <h5>Profile<button (click)="signOut()"class="right btn light-blue darken-3">Sign out<fa-icon class="right m-left-10" [icon]="['fas', 'sign-out-alt']"></fa-icon></button></h5>
-        <ul class="collection">
-            <li *ngFor="let prop of userInfo" class="collection-item">
-                <p><span class="badge">{{prop.key}}</span> {{prop.value}}</p>
-            </li>
-        </ul>
-    </div>
-    <div class="divider"></div>
-    <div class="cards-list">
-        <cards-list [cards]="userCards"></cards-list>
-    </div>
-    <div class="subscriptions-lists">
-        <subscriptions-list [subscriptions]="userSubscriptions"></subscriptions-list>
+    <div *ngIf="!isLoading">
+        <div class="profile-info">
+            <h5>Profile<button (click)="signOut()"class="right btn light-blue darken-3">Sign out<fa-icon class="right m-left-10" [icon]="['fas', 'sign-out-alt']"></fa-icon></button></h5>
+            <ul class="collection">
+                <li *ngFor="let prop of userInfo" class="collection-item">
+                    <p><span class="badge">{{prop.key}}</span> {{prop.value}}</p>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="cards-list">
+            <cards-list [subscriptionIds]="subscriptionIds" [cards]="userCards"></cards-list>
+        </div>
+        <div class="subscriptions-lists">
+            <subscriptions-list [subscriptionIds]="subscriptionIds" [subscriptions]="userSubscriptions"></subscriptions-list>
+        </div>
     </div>
     <div *ngIf="isLoading" class="loader-container">
         <div class="loader">

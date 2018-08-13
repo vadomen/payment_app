@@ -21,11 +21,11 @@ export class SubscriptionApiService {
         this.stripe = Stripe(PUBLISHABLE_KEY);
     }
 
-    public initSibscription(planId): Observable<any> {
+    public initSibscription(planId: string): Observable<any> {
         return this.http.post(`${this.url}${SUBSCRIPTION.INIT}`, JSON.stringify({planId}), { headers: this.headers });
     }
 
-    public suspendSubscription(subscriptionId: string): Observable<any> {
+    public suspendSubscription(subscriptionId: string | string[]): Observable<any> {
         return this.http.post(`${this.url}${SUBSCRIPTION.SUSPEND}`, JSON.stringify({subscriptionId}), { headers: this.headers });
     }
 }
