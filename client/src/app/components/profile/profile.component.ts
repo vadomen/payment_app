@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
 import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { take } from 'rxjs/operators';
 import { Telegram } from '../../interfaces/telegram.interface';
 
-@TelegramHandler()
 @Component({
     selector: 'profile',
     templateUrl: './profile.component.html',
@@ -18,7 +16,6 @@ import { Telegram } from '../../interfaces/telegram.interface';
 export class ProfileComponent implements OnInit, OnDestroy {
 
     private profileSubscription: Subscription;
-    private telegramSubscription: Subscription;
 
     public userInfo: any = [];
     public userCards: any = [];
@@ -35,6 +32,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 }
 
     ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
         this.initProfile();
     }
 
@@ -77,6 +77,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.router.navigate(['login']);
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+        this.telegramService.unsubscribe(this);
+    }
 
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
 import { Telegram } from '../../interfaces/telegram.interface';
 
 @Injectable({
@@ -7,28 +6,36 @@ import { Telegram } from '../../interfaces/telegram.interface';
 })
 export class TelegramService {
 
-    public communicationSubject: Subject<Telegram> = new Subject();
+    private subscribers = {};
 
     constructor() { }
 
-    public sendTelegram(msg: Telegram) {
-        this.communicationSubject.next(msg);
+    public subscribe(subscriber, callback) {
+        this.subscribers[subscriber.constructor.name] = {ref: subscriber, callback};
     }
 
-    public receiveTelegram(): Observable<Telegram> {
-        return this.communicationSubject.asObservable();
+    public unsubscribe(subscriber: any) {
+        delete this.subscribers[subscriber.constructor.name];
     }
 
-    public handleTelegram(component, { [component.constructor.name] : telegram }: Telegram) {
-        const payload = telegram.payload;
-            Object.keys(payload).forEach(prop => {
-                if (prop in component) {
-                    if (typeof component[prop] === 'function') {
-                        Array.isArray(payload[prop]) ? component[prop](...payload[prop]) : component[prop](payload[prop]);
-                    } else {
-                        component[prop] = payload[prop];
-                    }
+    public sendTelegram(telegram: Telegram) {
+        Object.keys(telegram).forEach(subscriber => {
+            if (subscriber in this.subscribers) {
+                this.receiveTelegram.call(this.subscribers[subscriber].ref, telegram[subscriber]);
+                this.subscribers[subscriber].callback();
+            }
+        });
+    }
+
+    private receiveTelegram({payload}) {
+        Object.keys(payload).forEach(prop => {
+            if (prop in this) {
+                if (typeof this[prop] === 'function') {
+                    Array.isArray(payload[prop]) ? this[prop](...payload[prop]) : this[prop](payload[prop]);
+                } else {
+                    this[prop] = payload[prop];
                 }
-            });
+            }
+        });
     }
 }

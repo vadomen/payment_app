@@ -1,10 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input,
         ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { CloseModal } from '../../helpers/decorators/controllers.decorator';
 
-@TelegramHandler()
 @Component({
     selector: 'confirmation',
     templateUrl: './confirmation.component.html',
@@ -22,7 +20,11 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef
     ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
+    }
 
     private onSubmit() {
         this.closeModal();
@@ -30,6 +32,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-
+        this.telegramService.unsubscribe(this);
     }
 }

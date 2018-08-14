@@ -3,11 +3,8 @@ import { Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ViewChild,
 import { CardApiService } from '../../services/api/card/card.api';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
-import { Subscription } from 'rxjs';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { CloseModal, InitProfile, SetLoading } from '../../helpers/decorators/controllers.decorator';
 
-@TelegramHandler()
 @Component({
   selector: 'card-editor',
   templateUrl: './card-editor.component.html',
@@ -17,8 +14,6 @@ import { CloseModal, InitProfile, SetLoading } from '../../helpers/decorators/co
 export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('cardContainer') private cardContainer: ElementRef;
     @Input('data') private data: any;
-
-    private telegramSubscription: Subscription;
 
     private elements: any;
     private card: any;
@@ -35,7 +30,11 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
         this.elements = this.cardService.initStripeElements();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
+    }
 
     ngAfterViewInit() {
         this.card = this.elements.create('card');
@@ -74,6 +73,7 @@ export class CardEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.telegramService.unsubscribe(this);
         this.card.removeEventListener('change', this.cardHandler);
         this.card.destroy();
     }

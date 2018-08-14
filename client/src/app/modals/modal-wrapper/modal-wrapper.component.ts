@@ -1,12 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef,
         ChangeDetectionStrategy, OnDestroy, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { TelegramService } from '../../services/communication/telegram.service';
 import { Telegram } from '../../interfaces/telegram.interface';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 
 
-@TelegramHandler()
 @Component({
   selector: 'modal-wrapper',
   templateUrl: './modal-wrapper.component.html',
@@ -16,8 +13,6 @@ import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decora
 export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild('modal') modal: ElementRef;
-
-    private telegramSubscription: Subscription;
 
     public modalInstance;
     public activeModal: string | null = null;
@@ -34,7 +29,11 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
                 private cdr: ChangeDetectorRef
             ) {}
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
+    }
 
     ngAfterViewInit() {
         M.Modal.init(this.modal.nativeElement, { dismissible: false });
@@ -63,5 +62,7 @@ export class ModalWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
         this.telegramService.sendTelegram(telegram);
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {
+        this.telegramService.unsubscribe(this);
+    }
 }

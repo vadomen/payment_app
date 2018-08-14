@@ -5,10 +5,8 @@ import { TelegramService } from '../../services/communication/telegram.service';
 import { Subscription } from 'rxjs';
 import { UserApiService } from '../../services/api/user/user.api';
 import { skipWhile, map, distinctUntilChanged } from 'rxjs/operators';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 import { SetLoading, CloseModal } from '../../helpers/decorators/controllers.decorator';
 
-@TelegramHandler()
 @Component({
     selector: 'signup',
     templateUrl: './signup.component.html',
@@ -20,7 +18,6 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('signupForm') private signupForm: NgForm;
 
     private formSubscription: Subscription;
-    private telegramSubscription: Subscription;
 
     @SetLoading('ModalWrapperComponent') private setLoading(value: boolean) { }
     @CloseModal() private closeModal() { }
@@ -30,7 +27,11 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
                 private userService: UserApiService) {
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
+    }
 
     ngAfterViewInit() {
         this.formSubscription = this.signupForm.valueChanges
@@ -59,6 +60,7 @@ export class SignupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.telegramService.unsubscribe(this);
         this.formSubscription.unsubscribe();
         this.formSubscription = null;
     }

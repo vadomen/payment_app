@@ -1,13 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { PlanApiService } from '../../services/api/plan/plan.api.service';
 import { map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SubscriptionApiService } from '../../services/api/subscription/subscription.api';
 import { SetLoading, InitProfile } from '../../helpers/decorators/controllers.decorator';
 import { TelegramService } from '../../services/communication/telegram.service';
-import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decorator';
 
-@TelegramHandler()
 @Component({
     selector: 'plans-list',
     templateUrl: './plans-list.component.html',
@@ -15,7 +13,6 @@ import { TelegramHandler } from '../../helpers/decorators/telegramHandler.decora
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlansListComponent implements OnInit, OnDestroy {
-    private telegramSubscription: Subscription;
 
     public subscribedPlans: {} = {};
     public loadingPlans: {} = {};
@@ -35,6 +32,9 @@ export class PlansListComponent implements OnInit, OnDestroy {
             ) { }
 
     ngOnInit() {
+        this.telegramService.subscribe(this, () => {
+            this.cdr.markForCheck();
+        });
         this.$plans = this.planService.getAllPlans().pipe(map(res => res.payload.data));
     }
 
@@ -58,5 +58,7 @@ export class PlansListComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    ngOnDestroy() {  }
+    ngOnDestroy() {
+        this.telegramService.unsubscribe(this);
+    }
 }
