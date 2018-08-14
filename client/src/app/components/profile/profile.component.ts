@@ -15,8 +15,6 @@ import { Telegram } from '../../interfaces/telegram.interface';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-    private profileSubscription: Subscription;
-
     public userInfo: any = [];
     public userCards: any = [];
     public userSubscriptions: any = [];
@@ -40,7 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     private initProfile() {
         this.isLoading = true;
-        this.profileSubscription = this.userService
+        this.userService
             .getUser()
             .pipe(take(1))
             .subscribe(({payload : profile}) => {
