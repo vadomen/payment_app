@@ -10,8 +10,8 @@ export class TelegramService {
 
     constructor() { }
 
-    public subscribe(subscriber, callback) {
-        this.subscribers[subscriber.constructor.name] = {ref: subscriber, callback};
+    public subscribe(subscriber, callback?: Function) {
+        this.subscribers[subscriber.constructor.name] = {ref: subscriber, callback: callback ? callback.bind(subscriber) : null};
     }
 
     public unsubscribe(subscriber: any) {
@@ -22,7 +22,7 @@ export class TelegramService {
         Object.keys(telegram).forEach(subscriber => {
             if (subscriber in this.subscribers) {
                 this.receiveTelegram.call(this.subscribers[subscriber].ref, telegram[subscriber]);
-                this.subscribers[subscriber].callback();
+                return typeof this.subscribers[subscriber].callback === 'function' ? this.subscribers[subscriber].callback() : false;
             }
         });
     }
